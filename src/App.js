@@ -1,13 +1,13 @@
 import React from "react";
 import Delivery from "./containers/Delivery";
-import Driver from "./containers/Driver";
+import Monitoring from "./containers/Monitoring";
 import Sender from "./containers/Sender";
 
 function App() {
   return (
     <div className="App">
       {/* <Sender /> */}
-      {/* <Driver /> */}
+      {/* <Monitoring /> */}
       <Delivery />
     </div>
   );

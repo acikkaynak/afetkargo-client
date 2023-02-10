@@ -8,17 +8,37 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 
-function createData(deliveryFullname, deliveryPhone, address) {
-  return { deliveryFullname, deliveryPhone, address };
+function createData(
+  deliveryFullname,
+  deliveryPhone,
+  address,
+  deliveryGoogleMapsLink
+) {
+  return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
 }
 
 const rows = [
-  createData("Emirhan", "05553902323", "Bağcılar"),
-  createData("Demirhan", "05553902323", "Yağcılar"),
-  createData("Cemirhan", "05553902323", "Dağcılar"),
+  createData(
+    "Emirhan",
+    "05553902323",
+    "Bağcılar",
+    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
+  ),
+  createData(
+    "Demirhan",
+    "05553902323",
+    "Yağcılar",
+    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
+  ),
+  createData(
+    "Cemirhan",
+    "05553902323",
+    "Dağcılar",
+    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
+  ),
 ];
 
-const Driver = () => {
+const Monitoring = () => {
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -123,4 +143,4 @@ const Driver = () => {
   );
 };
 
-export default Driver;
+export default Monitoring;
