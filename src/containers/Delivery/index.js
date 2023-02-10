@@ -17,7 +17,9 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 function createData(
   deliveryFullname,
@@ -51,6 +53,7 @@ const rows = [
 
 const Delivery = () => {
   const [age, setAge] = useState("");
+  const DEFAULT_CENTER = [41.018646, 28.945409];
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -89,6 +92,28 @@ const Delivery = () => {
         padding: "24px",
       }}
     >
+      <Grid item xs={12}>
+        <MapContainer
+          center={DEFAULT_CENTER}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{
+            width: "100%",
+            height: "400px",
+          }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={DEFAULT_CENTER}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </Grid>
+
       <Divider />
       <Grid item xs={12}>
         <TextField
