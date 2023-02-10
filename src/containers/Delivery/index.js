@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import "../../../src/index.css"
+
 import {
   Button,
   Divider,
@@ -17,9 +21,11 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+
+const StyledMarker = styled(Marker)`
+`;
 
 function createData(
   deliveryFullname,
@@ -106,11 +112,11 @@ const Delivery = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={DEFAULT_CENTER}>
+          <StyledMarker position={DEFAULT_CENTER} id="marker-wrapper" >
             <Popup>
               A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
-          </Marker>
+          </StyledMarker>
         </MapContainer>
       </Grid>
 
