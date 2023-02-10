@@ -21,6 +21,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function createData(
   deliveryFullname,
@@ -53,6 +54,8 @@ const rows = [
 ];
 
 const Sender = () => {
+  const navigate = useNavigate();
+
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -148,7 +151,12 @@ const Sender = () => {
       <Grid
         item
         xs={12}
-        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "10px",
+          alignItems: "center",
+        }}
       >
         <TextField
           id="googleMapsLink"
@@ -159,7 +167,7 @@ const Sender = () => {
         />
 
         <Tooltip title="Kalkış noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
-          <IconButton>
+          <IconButton style={{ height: "40px" }}>
             <HelpOutlineIcon />
           </IconButton>
         </Tooltip>
@@ -223,7 +231,12 @@ const Sender = () => {
       <Grid
         item
         xs={12}
-        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "10px",
+          alignItems: "center",
+        }}
       >
         <TextField
           id="deliveryGoogleMapsLink"
@@ -234,7 +247,7 @@ const Sender = () => {
         />
 
         <Tooltip title="Teslim noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
-          <IconButton>
+          <IconButton style={{ height: "40px" }}>
             <HelpOutlineIcon />
           </IconButton>
         </Tooltip>
@@ -300,7 +313,9 @@ const Sender = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        <Button variant="contained">Kayıt Oluştur</Button>
+        <Button variant="contained" onClick={() => navigate("/izle")}>
+          Kayıt Oluştur
+        </Button>
       </Grid>
     </Grid>
   );

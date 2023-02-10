@@ -2,6 +2,7 @@ import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import styled from "styled-components";
 import { pink } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -11,6 +12,8 @@ const StyledGrid = styled(Grid)`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <Grid
       container
@@ -46,6 +49,7 @@ const Login = () => {
           variant="contained"
           fullWidth={true}
           style={{ textTransform: "none" }}
+          onClick={() => navigate("/kayit")}
         >
           Giriş yap
         </Button>

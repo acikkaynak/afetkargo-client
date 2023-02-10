@@ -4,14 +4,18 @@ import Login from "./containers/Login";
 import Monitoring from "./containers/Monitoring";
 import Sender from "./containers/Sender";
 
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 function App() {
   return (
-    <div className="App">
-      {/* <Sender /> */}
-      {/* <Monitoring /> */}
-      {/* <Delivery /> */}
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/kayit" element={<Sender />} />
+        <Route path="/izle" element={<Monitoring />} />
+        <Route path="/teslim" element={<Delivery />} />
+      </Routes>
+    </Router>
   );
 }
 

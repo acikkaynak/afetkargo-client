@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Link, Typography } from "@mui/material";
+import { Button, Grid, Link, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function createData(
   deliveryFullname,
@@ -39,6 +40,8 @@ const rows = [
 ];
 
 const Monitoring = () => {
+  const navigate = useNavigate();
+  
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -135,9 +138,12 @@ const Monitoring = () => {
       <Grid
         item
         xs={12}
-        style={{ display: "flex", justifyContent: "flex-end" }}
+        style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
         <Button variant="contained">Yola çıktım</Button>
+        <Button variant="contained" style={{ backgroundColor: "green" }} onClick={() => navigate("/teslim")}>
+          Teslim Ettim
+        </Button>
       </Grid>
     </Grid>
   );
