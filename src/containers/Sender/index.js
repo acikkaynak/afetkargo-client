@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import {
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AddIcon from "@mui/icons-material/Add";
+import { useState } from "react";
 
 function createData(
   deliveryFullname,
@@ -47,6 +59,8 @@ const Sender = () => {
     driverFullname: "",
     driverPhone: "",
     inventory: "",
+    cityId: "",
+    countyId: "",
     startAddressAddress: "",
     long: "",
     lat: "",
@@ -55,6 +69,8 @@ const Sender = () => {
       {
         deliveryFullname: "",
         deliveryPhone: "",
+        cityId: "",
+        countyId: "",
         address: "",
         deliveryLong: "",
         deliveryLat: "",
@@ -96,6 +112,28 @@ const Sender = () => {
         />
       </Grid>
 
+      <Grid
+        item
+        xs={12}
+        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="startCityLabel">Başlangıç İli</InputLabel>
+          <Select labelId="startCityLabel" id="startCityId">
+            <MenuItem value={10}>KAHRAMANMARAŞ</MenuItem>
+            <MenuItem value={20}>HATAY</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="startCountLabel">Başlangıç İlçesi</InputLabel>
+          <Select labelId="startCountLabel" id="startCountId">
+            <MenuItem value={10}>ilçe 1</MenuItem>
+            <MenuItem value={20}>ilçe 2</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+
       <Grid item xs={12}>
         <TextField
           id="startAddressAddress"
@@ -107,33 +145,24 @@ const Sender = () => {
         />
       </Grid>
 
-      <Grid item xs={12}>
-        <Button variant="outlined" startIcon={<LocationOnIcon />}>
-          Konum
-        </Button>
-      </Grid>
-
-      <Grid item xs={12}>
-        <TextField
-          id="googleMapsLink"
-          label="Map Link"
-          variant="outlined"
-          fullWidth
-        />
-      </Grid>
-
       <Grid
         item
         xs={12}
         style={{ display: "flex", flexDirection: "row", gap: "10px" }}
       >
-        <Grid item xs={6}>
-          <TextField id="long" label="longitude" variant="outlined" fullWidth />
-        </Grid>
+        <TextField
+          id="googleMapsLink"
+          label="Google Maps Adres Linki"
+          variant="outlined"
+          placeholder="https://www.google.com/maps/place/@..."
+          fullWidth
+        />
 
-        <Grid item xs={6}>
-          <TextField id="lat" label="latitude" variant="outlined" fullWidth />
-        </Grid>
+        <Tooltip title="Kalkış noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
+          <IconButton>
+            <HelpOutlineIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
 
       <Grid item xs={12}>
@@ -163,10 +192,52 @@ const Sender = () => {
       <Grid item xs={12}>
         <TextField
           id="deliveryPhone"
-          label="Sürücü Telefon No"
+          label="Alıcı Telefon No"
           variant="outlined"
           fullWidth
         />
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="deliveryCityLabel">Teslim İli</InputLabel>
+          <Select labelId="deliveryCityLabel" id="deliveryCityId">
+            <MenuItem value={10}>KAHRAMANMARAŞ</MenuItem>
+            <MenuItem value={20}>HATAY</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="deliveryCountLabel">Teslim İlçesi</InputLabel>
+          <Select labelId="deliveryCountLabel" id="deliveryCountId">
+            <MenuItem value={10}>ilçe 1</MenuItem>
+            <MenuItem value={20}>ilçe 2</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+      >
+        <TextField
+          id="deliveryGoogleMapsLink"
+          label="Google Maps Teslimat Adres Linki"
+          variant="outlined"
+          placeholder="https://www.google.com/maps/place/@..."
+          fullWidth
+        />
+
+        <Tooltip title="Teslim noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
+          <IconButton>
+            <HelpOutlineIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
 
       <Grid item xs={12}>
@@ -177,39 +248,6 @@ const Sender = () => {
           fullWidth
           multiline={true}
           rows={2}
-        />
-      </Grid>
-
-      <Grid
-        item
-        xs={12}
-        style={{ display: "flex", flexDirection: "row", gap: "10px" }}
-      >
-        <Grid item xs={6}>
-          <TextField
-            id="deliveryLong"
-            label="longitude"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item xs={6}>
-          <TextField
-            id="deliveryLat"
-            label="latitude"
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12}>
-        <TextField
-          id="deliveryGoogleMapsLink"
-          label="Map Link"
-          variant="outlined"
-          fullWidth
         />
       </Grid>
 

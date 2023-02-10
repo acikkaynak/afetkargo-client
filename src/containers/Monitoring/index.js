@@ -18,7 +18,7 @@ const rows = [
   createData("Cemirhan", "05553902323", "Dağcılar"),
 ];
 
-const Driver = () => {
+const Monitoring = () => {
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -123,4 +123,4 @@ const Driver = () => {
   );
 };
 
-export default Driver;
+export default Monitoring;
