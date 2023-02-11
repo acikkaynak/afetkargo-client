@@ -6,7 +6,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GeoLocation from "../GeoLocation";
 
@@ -42,7 +42,6 @@ const rows = [
 
 const Monitoring = () => {
   const navigate = useNavigate();
-
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -67,9 +66,16 @@ const Monitoring = () => {
   });
 
   const [isDriverOnRoad, setIsDriverOnRoad] = useState(false);
+  const[driverInfo, setDriverInfo] = useState([]);
 
+  useEffect(() => {
+    setDriverInfo(localStorage.getItem('afetkargo_surucu'));
+    console.log('dr_info', localStorage.getItem('afetkargo_surucu'));
+  }, []);
+  
   const driverOnRoad = () => {
-    setIsDriverOnRoad(true)
+    //endpoint çağır
+    
   }
 
   return (
@@ -82,7 +88,7 @@ const Monitoring = () => {
         padding: "24px",
       }}
     >
-      <GeoLocation isDriverOnRoad={isDriverOnRoad} driverOnRoad={driverOnRoad}/>
+      <GeoLocation />
       <Grid item xs={12}>
         <Typography variant="h4">afetkargo | Lojistik İzleme</Typography>
       </Grid>
@@ -90,10 +96,10 @@ const Monitoring = () => {
       <Divider />
 
       <Grid item xs={12}>
-        <Typography variant="h6">Başlangıç adres bilgisi</Typography>
+        <Typography variant="h6">{driverInfo?.originAddress}</Typography>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Link
           href="https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
           color="inherit"
@@ -101,7 +107,7 @@ const Monitoring = () => {
         >
           Başlangıç Adresini Haritada Göster
         </Link>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <TableContainer component={Paper}>
@@ -154,8 +160,7 @@ const Monitoring = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
-        {!isDriverOnRoad && <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>}
-        {isDriverOnRoad && <span>Konum bilgileriniz alınmıştır.</span>}
+        <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>
         <Button
           variant="contained"
           style={{ backgroundColor: "green" }}

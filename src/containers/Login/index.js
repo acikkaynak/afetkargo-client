@@ -27,10 +27,14 @@ const Login = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let formData = {
-      plate: data.get("plate"),
-      password: data.get("password")
+      plateNo: data.get("plate"),
+      driverPassword: data.get("password")
     };
     const result = await driverLoginRequest(formData);
+    if(result?.code === 200){
+      localStorage.setItem('afetkargo_surucu', JSON.stringify(result?.data));
+      navigate('/izle');
+    }
     console.log(result);
   };
   return (
