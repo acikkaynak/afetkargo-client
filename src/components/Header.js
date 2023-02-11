@@ -3,7 +3,14 @@ import React from "react";
 
 export default function Header(props) {
   const displayDesktop = () => {
-    return <Toolbar>{props.text}</Toolbar>;
+    return (
+      <Toolbar
+        variant="dense"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        {props.text}
+      </Toolbar>
+    );
   };
 
   return (
