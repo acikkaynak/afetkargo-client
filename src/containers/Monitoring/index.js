@@ -50,21 +50,33 @@ const Monitoring = () => {
   const [deliveryRows, setDeliveryRows] = useState([]);
 
   const [isDriverOnRoad, setIsDriverOnRoad] = useState(false);
-  const [driverInfo, setDriverInfo] = useState([]);
+  const [driverInfo, setDriverInfo] = useState();
+  const [driverCredentials, setDriverCredentials] = useState();
+
   function generateMapLink(lat, lng) {
     return `https://maps.google.com/?q=${lat},${lng}`;
   }
 
   useEffect(() => {
     let driverInfoData = JSON.parse(localStorage.getItem("afetkargo_surucu"));
+    const driverCredentialsData = JSON.parse(localStorage.getItem("afetkargo_surucu_info"));
+    
     setDriverInfo(driverInfoData);
+    setDriverCredentials(driverCredentialsData);
     setDeliveryRows(driverInfoData?.receiverList ?? []);
   }, []);
+
+  useEffect(() => {
+    if (driverInfo && driverCredentials && driverInfo?.status === 2){
+      setIsDriverOnRoad(true);
+      driverOnRoad();
+    }
+  }, [driverInfo, driverCredentials])
 
   const driverOnRoad = () => {
     setIsDriverOnRoad(true);
     const data = {
-      "driverPassword": "9CRPX5",
+      "driverPassword": driverCredentials.driverPassword,
       "plateNo": driverInfo.plateNo,
       "cargoId": driverInfo.id
     };
@@ -144,7 +156,9 @@ const Monitoring = () => {
           </Table>
         </TableContainer>
       </Grid>
-
+      <Grid display={"flex"} justifyContent={"end"}>
+        {(isDriverOnRoad || driverInfo?.status === 2) && <span>Konum bilgileriniz alınmıştır.</span>}
+      </Grid>
       <Grid
         item
         xs={12}
@@ -154,12 +168,12 @@ const Monitoring = () => {
           Geri Dön
         </Button>
 
-        {!isDriverOnRoad && (
+        {(!isDriverOnRoad && driverInfo?.status === 1) && (
           <Button variant="contained" onClick={driverOnRoad}>
             Yola çıktım
           </Button>
         )}
-        {isDriverOnRoad && <span>Konum bilgileriniz alınmıştır.</span>}
+
         <Button
           variant="contained"
           style={{ backgroundColor: "green" }}

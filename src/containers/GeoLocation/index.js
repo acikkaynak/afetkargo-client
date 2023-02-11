@@ -24,31 +24,29 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
 
   useEffect(() => {
     setCargoId(JSON.parse(localStorage.getItem("afetkargo_surucu")).id);
-    // getPosition();
-    if (coords?.latitude !== latitude) setLatitude(coords?.latitude);
-    if (coords?.longitude !== longitude) setLongitude(coords?.longitude);
-    console.log("yenilendi: ", Date.now());
-    console.log("coords", coords);
-    console.log("lat", coords?.latitude);
-    console.log("lon", coords?.longitude);
+
+    setLatitude(coords?.latitude);
+    setLongitude(coords?.longitude);
   }, [coords]);
-  
+
 
   useEffect(() => {
     if (isDriverOnRoad) {
       postLocation();
 
-      window.setInterval(() => {
+      const interval = setInterval(() => {
         postLocation();
-      }, 1000 * 60 * process.env.REACT_APP_REFRESH_MIN);
+      }, 5000);
+
+      return () => clearInterval(interval);
     }
   }, [isDriverOnRoad]);
 
   const postLocation = () => {
     const data = {
       cargoId: cargoId,
-      lat: latitude,
-      long: longitude,
+      lat: latitude ? latitude : coords?.latitude,
+      long: longitude ? longitude : coords?.longitude,
     };
     const result = setLocationRequest(data);
     console.log("result", result);
