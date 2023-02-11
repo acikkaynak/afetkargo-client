@@ -34,6 +34,7 @@ const Login = () => {
     const result = await driverLoginRequest(formData);
     if (result?.code === 200) {
       localStorage.setItem("afetkargo_surucu", JSON.stringify(result?.data));
+      localStorage.setItem("afetkargo_surucu_info", JSON.stringify(formData));
       navigate("/izle");
     }
     console.log(result);
