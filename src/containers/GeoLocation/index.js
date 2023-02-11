@@ -4,6 +4,7 @@ import { useGeolocated } from "react-geolocated";
 import setLocationRequest from "../../api/setLocation";
 
 const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
+  const [cargoId, setCargoId] = useState("");
   const {
     coords,
     timestamp, // timestamp of when the last position was retrieved
@@ -22,11 +23,10 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
   const [longitude, setLongitude] = useState(coords?.longitude);
 
   useEffect(() => {
+    setCargoId(localStorage.getItem("afetkargo_surucu"));
     // getPosition();
-    if (coords?.latitude !== latitude)
-      setLatitude(coords?.latitude);
-    if (coords?.longitude !== longitude)
-      setLongitude(coords?.longitude);
+    if (coords?.latitude !== latitude) setLatitude(coords?.latitude);
+    if (coords?.longitude !== longitude) setLongitude(coords?.longitude);
     console.log("yenilendi: ", Date.now());
     console.log("coords", coords);
     console.log("lat", coords?.latitude);
@@ -36,36 +36,23 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
   useEffect(() => {
     if (isDriverOnRoad) {
       window.setInterval(() => {
-        postLocation()
-      }, 1000 * 60 * 15)
+        postLocation();
+      }, 1000 * 60 * process.env.REACT_APP_REFRESH_MIN);
     }
-  }, [isDriverOnRoad])
+  }, [isDriverOnRoad]);
 
   const postLocation = () => {
     const data = {
-      "cargoId": "123123-123123-123dsfdfgdfgd-22342",
-      "lat": latitude,
-      "long": longitude
+      cargoId: cargoId,
+      lat: latitude,
+      long: longitude,
     };
     const result = setLocationRequest(data);
-    console.log("result", result)
-  }
+    console.log("result", result);
+  };
 
-  // const getLocation = useCallback(() => {
-  //   handleReadGeoLocation();
-  // }, []);
-
-  // const handleReadGeoLocation = () => {
-  //   console.log("güncellendi:", Date.now());
-  //   console.log("latitude:", coords?.latitude);
-  //   console.log("longitude:", coords?.longitude);
-
-  //   setTimeout(() => {
-  //     handleReadGeoLocation();
-  //   }, 5000);
-  // };
-
-  return !isGeolocationAvailable ? (
+  return null;
+  !isGeolocationAvailable ? (
     <div>Your browser does not support Geolocation</div>
   ) : !isGeolocationEnabled ? (
     <div>Geolocation is not enabled</div>

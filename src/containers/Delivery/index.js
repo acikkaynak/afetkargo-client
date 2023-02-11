@@ -61,36 +61,39 @@ const rows = [
 
 const Delivery = () => {
   const [age, setAge] = useState("");
+  const [cargoId, setCargoId] = useState("");
   const [defaultCenter, setDefaultCenter] = useState([]);
-  const [receiverInfos, setReceiverInfos] = useState()
+  const [receiverInfos, setReceiverInfos] = useState();
 
   useEffect(() => {
     const data = {
-      "receiverPassword": "6BBDHL",
-      "plateNo": "06DTO84"
-    }
+      receiverPassword: "6BBDHL",
+      plateNo: "06DTO84",
+    };
+
+    setCargoId(localStorage.getItem("afetkargo_surucu"));
     getReceiverData(data);
-    getDriverLocationInfo();
-  }, [])
+    getDriverLocationInfo(cargoId);
+  }, []);
 
   useEffect(() => {
     window.setInterval(() => {
       getDriverLocationInfo();
-    }, 1000 * 60 * 15)
-  }, [])
+    }, 1000 * 60 * 15);
+  }, []);
 
   const getReceiverData = async (data) => {
     const response = await getRecieverInfosRequest(data);
-    setReceiverInfos(response.data)
+    setReceiverInfos(response.data);
     setDefaultCenter([response.data.lat, response.data.long]);
-  }
+  };
 
-  const getDriverLocationInfo = async () => {
-    const response = await getDriverLocationInfoRequest("aedfa886-5270-4c9b-9e14-ebbee7a20f72");
-    if (response.code === 200){
+  const getDriverLocationInfo = async (cargoId) => {
+    const response = await getDriverLocationInfoRequest(cargoId);
+    if (response.code === 200) {
       setDefaultCenter([response.data.lat, response.data.long]);
     }
-  }
+  };
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -98,7 +101,7 @@ const Delivery = () => {
 
   return (
     <>
-      {receiverInfos &&
+      {receiverInfos && (
         <Grid
           container
           style={{
@@ -230,18 +233,23 @@ const Delivery = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {receiverInfos.receiverList && receiverInfos?.receiverList.map((row, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.deliveryFullname}
-                      </TableCell>
-                      <TableCell align="center">{row.deliveryPhone}</TableCell>
-                      <TableCell align="right">{row.address}</TableCell>
-                    </TableRow>
-                  ))}
+                  {receiverInfos.receiverList &&
+                    receiverInfos?.receiverList.map((row, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.deliveryFullname}
+                        </TableCell>
+                        <TableCell align="center">
+                          {row.deliveryPhone}
+                        </TableCell>
+                        <TableCell align="right">{row.address}</TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -282,7 +290,7 @@ const Delivery = () => {
             <Button variant="contained">Teslimatı Bildir</Button>
           </Grid>
         </Grid>
-      }
+      )}
     </>
   );
 };
