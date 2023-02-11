@@ -21,47 +21,45 @@ const Wrapper = styled.div`
 function App() {
   return (
     <Wrapper>
-      <Router>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/" element={<Landing />} />
-          <Route path="/delivery-login" element={<DeliveryLogin />} />
-          <Route
-            path="/admin-dashboard"
-            element={
-              <Layout>
-                <AdminDashboard />
-              </Layout>
-            }
-          />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/kayit"
-            element={
-              <Layout>
-                <Sender />
-              </Layout>
-            }
-          />
-          <Route
-            path="/izle"
-            element={
-              <Layout>
-                <Monitoring />
-              </Layout>
-            }
-          />
-          <Route
-            path="/teslim"
-            element={
-              <Layout>
-                <Delivery />
-              </Layout>
-            }
-          />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/delivery-login" element={<DeliveryLogin />} />
+        <Route
+          path="/admin-dashboard"
+          element={
+            <Layout>
+              <AdminDashboard />
+            </Layout>
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/kayit"
+          element={
+            <Layout>
+              <Sender />
+            </Layout>
+          }
+        />
+        <Route
+          path="/izle"
+          element={
+            <Layout>
+              <Monitoring />
+            </Layout>
+          }
+        />
+        <Route
+          path="/teslim"
+          element={
+            <Layout>
+              <Delivery />
+            </Layout>
+          }
+        />
+      </Routes>
     </Wrapper>
   );
 }
