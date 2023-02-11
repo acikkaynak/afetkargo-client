@@ -70,10 +70,15 @@ const Monitoring = () => {
   const [isDriverOnRoad, setIsDriverOnRoad] = useState(false);
   const [driverInfo, setDriverInfo] = useState([]);
 
+  function generateMapLink(lat, lng) {
+    return `https://maps.google.com/?q=${lat},${lng}`;
+  }
+
   useEffect(() => {
     let driverInfoData = JSON.parse(localStorage.getItem("afetkargo_surucu"));
     setDriverInfo(driverInfoData);
     setDeliveryRows(driverInfoData?.receiverList ?? []);
+    
     // setDeliveryRows([
     //   {
     //     deliveryFullname: "deliveryData.deliveryFullname",
@@ -144,7 +149,7 @@ const Monitoring = () => {
                     </TableCell>
                     <TableCell align="center">{row.receiverPhone}</TableCell>
                     <TableCell align="right">
-                      {row.destinationAddress}
+                      <Link href={generateMapLink(row.destinationLat, row.destinationLong)} underline="none" target="_blank">Google Haritada Göster</Link>
                     </TableCell>
                   </TableRow>
                 ))
