@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GeoLocation from "../GeoLocation";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import startTransferRequest from "../../api/startTransfer";
 
@@ -50,7 +51,6 @@ const Monitoring = () => {
 
   const [isDriverOnRoad, setIsDriverOnRoad] = useState(false);
   const [driverInfo, setDriverInfo] = useState([]);
-
   function generateMapLink(lat, lng) {
     return `https://maps.google.com/?q=${lat},${lng}`;
   }
@@ -124,7 +124,16 @@ const Monitoring = () => {
                     </TableCell>
                     <TableCell align="center">{row.receiverPhone}</TableCell>
                     <TableCell align="right">
-                      <Link href={generateMapLink(row.destinationLat, row.destinationLong)} underline="none" target="_blank">Google Haritada Göster</Link>
+                      <Link
+                        href={generateMapLink(
+                          row.destinationLat,
+                          row.destinationLong
+                        )}
+                        underline="none"
+                        target="_blank"
+                      >
+                        Google Haritada Göster
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))
@@ -141,6 +150,10 @@ const Monitoring = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
+        <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+          Geri Dön
+        </Button>
+
         {!isDriverOnRoad && (
           <Button variant="contained" onClick={driverOnRoad}>
             Yola çıktım
