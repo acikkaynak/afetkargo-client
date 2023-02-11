@@ -26,6 +26,10 @@ const Login = () => {
         margin: "10% auto",
       }}
     >
+      <StyledGrid item xs={12} style={{ marginBottom: "20px" }}>
+        <Typography variant="h4">afetkargo</Typography>
+      </StyledGrid>
+
       <StyledGrid item xs={12}>
         <Avatar sx={{ bgcolor: pink[500] }}>
           <LockIcon htmlColor="white" />

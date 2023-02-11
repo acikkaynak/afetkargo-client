@@ -1,4 +1,4 @@
-import { Button, Grid, Link, Typography } from "@mui/material";
+import { Button, Divider, Grid, Link, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -41,7 +41,7 @@ const rows = [
 
 const Monitoring = () => {
   const navigate = useNavigate();
-  
+
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
@@ -75,6 +75,12 @@ const Monitoring = () => {
         padding: "24px",
       }}
     >
+      <Grid item xs={12}>
+        <Typography variant="h4">afetkargo | Lojistik İzleme</Typography>
+      </Grid>
+
+      <Divider />
+
       <Grid item xs={12}>
         <Typography variant="h6">Başlangıç adres bilgisi</Typography>
       </Grid>
@@ -141,7 +147,11 @@ const Monitoring = () => {
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
         <Button variant="contained">Yola çıktım</Button>
-        <Button variant="contained" style={{ backgroundColor: "green" }} onClick={() => navigate("/teslim")}>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "green" }}
+          onClick={() => navigate("/teslim")}
+        >
           Teslim Ettim
         </Button>
       </Grid>

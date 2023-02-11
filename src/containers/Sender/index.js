@@ -94,6 +94,12 @@ const Sender = () => {
       }}
     >
       <Grid item xs={12}>
+        <Typography variant="h4">afetkargo | Lojistik Teslim</Typography>
+      </Grid>
+
+      <Divider />
+
+      <Grid item xs={12}>
         <TextField id="plateno" label="Plaka No" variant="outlined" fullWidth />
       </Grid>
 
