@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GeoLocation from "../GeoLocation";
 
 function createData(
   deliveryFullname,
@@ -75,6 +76,7 @@ const Monitoring = () => {
         padding: "24px",
       }}
     >
+      <GeoLocation />
       <Grid item xs={12}>
         <Typography variant="h4">afetkargo | Lojistik İzleme</Typography>
       </Grid>
