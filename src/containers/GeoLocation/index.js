@@ -23,7 +23,7 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
   const [longitude, setLongitude] = useState(coords?.longitude);
 
   useEffect(() => {
-    setCargoId(localStorage.getItem("afetkargo_surucu"));
+    setCargoId(JSON.parse(localStorage.getItem("afetkargo_surucu")).id);
     // getPosition();
     if (coords?.latitude !== latitude) setLatitude(coords?.latitude);
     if (coords?.longitude !== longitude) setLongitude(coords?.longitude);
@@ -32,9 +32,12 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
     console.log("lat", coords?.latitude);
     console.log("lon", coords?.longitude);
   }, [coords]);
+  
 
   useEffect(() => {
     if (isDriverOnRoad) {
+      postLocation();
+
       window.setInterval(() => {
         postLocation();
       }, 1000 * 60 * process.env.REACT_APP_REFRESH_MIN);

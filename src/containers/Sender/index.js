@@ -23,14 +23,7 @@ import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function createData(
-  deliveryFullname,
-  deliveryPhone,
-  address,
-  deliveryGoogleMapsLink
-) {
-  return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
-}
+import createCargoRequest from "../../api/createCargoRequest"
 
 const Sender = () => {
   const navigate = useNavigate();
@@ -76,9 +69,17 @@ const Sender = () => {
     setDeliveryData(tempData);
   }
 
-  const handleRegisterTruck = () => {
-    console.log("senderData", senderData);
-    navigate("/izle")
+  const handleRegisterTruck = async () => {
+    const tempAllData = Object.assign({}, senderData);
+    tempAllData.receiverList = [];
+    tempAllData.receiverList.push(deliveryData);
+    setSenderData(tempAllData);
+
+    const response = await createCargoRequest(tempAllData)
+    console.log("response", response);
+    if (response.code === 200){
+      navigate("/izle")
+    }
   }
 
   const handleAddDelivery = () => {

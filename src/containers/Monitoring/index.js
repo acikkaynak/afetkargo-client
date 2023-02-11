@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GeoLocation from "../GeoLocation";
 
+import startTransferRequest from "../../api/startTransfer";
+
 function createData(
   deliveryFullname,
   deliveryPhone,
@@ -18,27 +20,6 @@ function createData(
 ) {
   return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
 }
-
-const rows = [
-  createData(
-    "Emirhan",
-    "05553902323",
-    "Bağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Demirhan",
-    "05553902323",
-    "Yağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Cemirhan",
-    "05553902323",
-    "Dağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-];
 
 const Monitoring = () => {
   const navigate = useNavigate();
@@ -74,22 +55,17 @@ const Monitoring = () => {
     let driverInfoData = JSON.parse(localStorage.getItem("afetkargo_surucu"));
     setDriverInfo(driverInfoData);
     setDeliveryRows(driverInfoData?.receiverList ?? []);
-    // setDeliveryRows([
-    //   {
-    //     deliveryFullname: "deliveryData.deliveryFullname",
-    //     deliveryPhone: "deliveryData.deliveryPhone",
-    //     cityId: "deliveryData.cityId",
-    //     countyId: "deliveryData.countyId",
-    //     deliveryGoogleMapsLink: "deliveryData.deliveryGoogleMapsLink",
-    //     address: "deliveryData.address",
-    //     deliveryLong: "deliveryData.deliveryLong",
-    //     deliveryLat: "deliveryData.deliveryLat"
-    //   }
-    // ])
   }, []);
 
   const driverOnRoad = () => {
     setIsDriverOnRoad(true);
+    const data = {
+      "driverPassword": "9CRPX5",
+      "plateNo": driverInfo.plateNo,
+      "cargoId": driverInfo.id
+    };
+    const response = startTransferRequest(data);
+    console.log("response", response)
   };
 
   return (
