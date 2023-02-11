@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "./containers/Layout";
 import AdminDashboard from "./containers/AdminDashbord";
+import Register from "./containers/Register";
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -30,6 +31,7 @@ function App() {
               </Layout>
             }
           />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/kayit"
             element={

@@ -7,7 +7,7 @@ export default function Header(props) {
   };
 
   return (
-    <header style={{ marginBottom: "20%" }}>
+    <header>
       <AppBar>{displayDesktop()}</AppBar>
     </header>
   );
