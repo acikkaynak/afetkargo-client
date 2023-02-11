@@ -25,6 +25,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 import getRecieverInfosRequest from "../../api/getRecieverInfos";
+import getDriverLocationInfoRequest from "../../api/getDriverLocationInfo";
 
 const StyledMarker = styled(Marker)``;
 
@@ -60,7 +61,7 @@ const rows = [
 
 const Delivery = () => {
   const [age, setAge] = useState("");
-  const DEFAULT_CENTER = [41.018646, 28.945409];
+  const [defaultCenter, setDefaultCenter] = useState([]);
   const [receiverInfos, setReceiverInfos] = useState()
 
   useEffect(() => {
@@ -68,15 +69,28 @@ const Delivery = () => {
       "receiverPassword": "6BBDHL",
       "plateNo": "06DTO84"
     }
-    getReceiverData(data)
+    getReceiverData(data);
+    getDriverLocationInfo();
+  }, [])
+
+  useEffect(() => {
+    window.setInterval(() => {
+      getDriverLocationInfo();
+    }, 1000 * 60 * 15)
   }, [])
 
   const getReceiverData = async (data) => {
     const response = await getRecieverInfosRequest(data);
     setReceiverInfos(response.data)
+    setDefaultCenter([response.data.lat, response.data.long]);
   }
 
-  console.log("receiverInfos", receiverInfos)
+  const getDriverLocationInfo = async () => {
+    const response = await getDriverLocationInfoRequest("aedfa886-5270-4c9b-9e14-ebbee7a20f72");
+    if (response.code === 200){
+      setDefaultCenter([response.data.lat, response.data.long]);
+    }
+  }
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -121,7 +135,7 @@ const Delivery = () => {
 
           <Grid item xs={12}>
             <MapContainer
-              center={DEFAULT_CENTER}
+              center={defaultCenter}
               zoom={13}
               scrollWheelZoom={false}
               style={{
@@ -133,7 +147,7 @@ const Delivery = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <StyledMarker position={DEFAULT_CENTER} id="marker-wrapper">
+              <StyledMarker position={defaultCenter} id="marker-wrapper">
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
