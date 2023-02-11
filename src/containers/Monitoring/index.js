@@ -71,19 +71,21 @@ const Monitoring = () => {
   const [driverInfo, setDriverInfo] = useState([]);
 
   useEffect(() => {
-    setDriverInfo(localStorage.getItem("afetkargo_surucu"));
-    setDeliveryRows([
-      {
-        deliveryFullname: "deliveryData.deliveryFullname",
-        deliveryPhone: "deliveryData.deliveryPhone",
-        cityId: "deliveryData.cityId",
-        countyId: "deliveryData.countyId",
-        deliveryGoogleMapsLink: "deliveryData.deliveryGoogleMapsLink",
-        address: "deliveryData.address",
-        deliveryLong: "deliveryData.deliveryLong",
-        deliveryLat: "deliveryData.deliveryLat"
-      }
-    ])
+    let driverInfoData = JSON.parse(localStorage.getItem("afetkargo_surucu"));
+    setDriverInfo(driverInfoData);
+    setDeliveryRows(driverInfoData?.receiverList ?? []);
+    // setDeliveryRows([
+    //   {
+    //     deliveryFullname: "deliveryData.deliveryFullname",
+    //     deliveryPhone: "deliveryData.deliveryPhone",
+    //     cityId: "deliveryData.cityId",
+    //     countyId: "deliveryData.countyId",
+    //     deliveryGoogleMapsLink: "deliveryData.deliveryGoogleMapsLink",
+    //     address: "deliveryData.address",
+    //     deliveryLong: "deliveryData.deliveryLong",
+    //     deliveryLat: "deliveryData.deliveryLat"
+    //   }
+    // ])
   }, []);
 
   const driverOnRoad = () => {
@@ -100,7 +102,10 @@ const Monitoring = () => {
         padding: "24px",
       }}
     >
-      <GeoLocation isDriverOnRoad={isDriverOnRoad} driverOnRoad={driverOnRoad} />
+      <GeoLocation
+        isDriverOnRoad={isDriverOnRoad}
+        driverOnRoad={driverOnRoad}
+      />
       <Grid item xs={12}>
         <Typography variant="h4">afetkargo | Lojistik İzleme</Typography>
       </Grid>
@@ -112,7 +117,6 @@ const Monitoring = () => {
       </Grid>
 
       <Grid item xs={12}>
-
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -124,39 +128,32 @@ const Monitoring = () => {
                   Telefon No
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: "700" }}>
-                  İl
-                </TableCell>
-                <TableCell align="right" style={{ fontWeight: "700" }}>
-                  İlçe
-                </TableCell>
-                <TableCell align="right" style={{ fontWeight: "700" }}>
                   Adres
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {deliveryRows && deliveryRows.length ?
+              {deliveryRows && deliveryRows.length ? (
                 deliveryRows.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.deliveryFullname}
+                      {row.receiverFullname}
                     </TableCell>
-                    <TableCell align="center">{row.deliveryPhone}</TableCell>
-                    <TableCell align="right">{row.cityId}</TableCell>
-                    <TableCell align="right">{row.countyId}</TableCell>
-                    <TableCell align="right">{row.address}</TableCell>
+                    <TableCell align="center">{row.receiverPhone}</TableCell>
+                    <TableCell align="right">
+                      {row.destinationAddress}
+                    </TableCell>
                   </TableRow>
-                )) : 
+                ))
+              ) : (
                 <></>
-              }
+              )}
             </TableBody>
           </Table>
         </TableContainer>
-
-
       </Grid>
 
       <Grid
@@ -164,7 +161,11 @@ const Monitoring = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
-        {!isDriverOnRoad && <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>}
+        {!isDriverOnRoad && (
+          <Button variant="contained" onClick={driverOnRoad}>
+            Yola çıktım
+          </Button>
+        )}
         {isDriverOnRoad && <span>Konum bilgileriniz alınmıştır.</span>}
         <Button
           variant="contained"
