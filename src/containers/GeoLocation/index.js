@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 
 const useGeoLocation = () => {
@@ -16,9 +16,15 @@ const useGeoLocation = () => {
     watchPosition: true,
     userDecisionTimeout: 5000,
   });
+  const [latitude, setLatitude] = useState(coords?.latitude);
+  const [longitude, setLongitude] = useState(coords?.longitude);
 
   useEffect(() => {
     // getPosition();
+    if (coords?.latitude !== latitude)
+      setLatitude(coords?.latitude);
+    if (coords?.longitude !== longitude) 
+      setLongitude(coords?.longitude);
     console.log("yenilendi: ", Date.now());
     console.log("coords", coords);
     console.log("lat", coords?.latitude);
@@ -48,11 +54,11 @@ const useGeoLocation = () => {
       <tbody>
         <tr>
           <td>latitude</td>
-          <td>{coords.latitude}</td>
+          <td>{latitude}</td>
         </tr>
         <tr>
           <td>longitude</td>
-          <td>{coords.longitude}</td>
+          <td>{longitude}</td>
         </tr>
         <tr>
           <td>altitude</td>
