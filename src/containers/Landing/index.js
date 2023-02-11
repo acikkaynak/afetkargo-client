@@ -1,16 +1,14 @@
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import {
   Avatar,
   Button,
   Card,
   CardContent,
-  Grid,
-  TextField,
-  Typography,
+  Grid, Typography
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import styled from "styled-components";
 import { pink } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Header from "../../components/Header";
 
 const StyledGrid = styled(Grid)`
@@ -41,15 +39,34 @@ const Login = () => {
             container
             style={{
               display: "flex",
-              flexDirection:"column",
+              flexDirection: "column",
               justifyContent: "center",
               alignContent: "center",
               gap: "14px",
             }}
           >
-            <Button variant="contained" onClick={()=> navigate('/login')}>Sürücüyüm</Button>
-            <Button variant="contained" onClick={()=> navigate('/kayit')}>Kargo Göndermek İstiyorum</Button>
-            <Button variant="contained" onClick={()=> navigate('/delivery-login')}>Alıcıyım</Button>
+            <StyledGrid item xs={12} style={{ marginBottom: "20px" }}>
+              <Typography variant="h4">afetkargo</Typography>
+            </StyledGrid>
+
+            <StyledGrid item xs={12}>
+              <Avatar sx={{ bgcolor: pink[500] }}>
+                <ContactSupportIcon htmlColor="white" />
+              </Avatar>
+            </StyledGrid>
+
+            <Button variant="contained" onClick={() => navigate("/login")}>
+              Sürücüyüm
+            </Button>
+            <Button variant="contained" onClick={() => navigate("/kayit")}>
+              Kargo Göndermek İstiyorum
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => navigate("/delivery-login")}
+            >
+              Alıcıyım
+            </Button>
           </Grid>
         </CardContent>
       </Card>
