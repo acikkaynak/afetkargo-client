@@ -19,6 +19,7 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
     watchPosition: true,
     userDecisionTimeout: 5000,
   });
+
   const [latitude, setLatitude] = useState(coords?.latitude);
   const [longitude, setLongitude] = useState(coords?.longitude);
 
@@ -31,7 +32,7 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
 
 
   useEffect(() => {
-    if (isDriverOnRoad) {
+    if (isDriverOnRoad && coords?.latitude && coords?.longitude) {
       postLocation();
 
       const interval = setInterval(() => {
@@ -40,7 +41,7 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
 
       return () => clearInterval(interval);
     }
-  }, [isDriverOnRoad]);
+  }, [isDriverOnRoad, coords]);
 
   const postLocation = () => {
     const data = {
