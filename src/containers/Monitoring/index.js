@@ -66,6 +66,11 @@ const Monitoring = () => {
     partialcount: 0,
   });
 
+  const driverOnRoad = () => {
+    //endpoint çağır
+    
+  }
+
   return (
     <Grid
       container
@@ -148,7 +153,7 @@ const Monitoring = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
-        <Button variant="contained">Yola çıktım</Button>
+        <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>
         <Button
           variant="contained"
           style={{ backgroundColor: "green" }}

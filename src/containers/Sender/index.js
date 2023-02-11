@@ -32,56 +32,69 @@ function createData(
   return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
 }
 
-const rows = [
-  createData(
-    "Emirhan",
-    "05553902323",
-    "Bağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Demirhan",
-    "05553902323",
-    "Yağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Cemirhan",
-    "05553902323",
-    "Dağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-];
-
 const Sender = () => {
   const navigate = useNavigate();
+
+  const [deliveryRows, setDeliveryRows] = useState([]);
 
   const [senderData, setSenderData] = useState({
     code: "",
     plateNo: "",
     driverFullname: "",
     driverPhone: "",
-    inventory: "",
-    cityId: "",
-    countyId: "",
-    startAddressAddress: "",
+    cityId: 10,
+    countyId: 10,
+    startAddress: "",
+    partialcount: 0,
+    googleMapsLink: "",
     long: "",
     lat: "",
-    googleMapsLink: "",
-    endAddressList: [
-      {
-        deliveryFullname: "",
-        deliveryPhone: "",
-        cityId: "",
-        countyId: "",
-        address: "",
-        deliveryLong: "",
-        deliveryLat: "",
-        deliveryGoogleMapsLink: "",
-      },
-    ],
-    partialcount: 0,
+    inventory: "",
+    endAddressList: []
   });
+
+  const [deliveryData, setDeliveryData] = useState({
+    deliveryFullname: "",
+    deliveryPhone: "",
+    cityId: "",
+    countyId: "",
+    deliveryGoogleMapsLink: "",
+    address: "",
+    deliveryLong: "",
+    deliveryLat: "",
+  });
+
+  const fieldOnChange = (value, field) => {
+    let tempData = Object.assign({}, senderData);
+    tempData[field] = value
+    setSenderData(tempData);
+  }
+
+  const deliveryFieldOnChange = (value, field) => {
+    let tempData = Object.assign({}, deliveryData);
+    tempData[field] = value;
+    setDeliveryData(tempData);
+  }
+
+  const handleRegisterTruck = () => {
+    console.log("senderData", senderData);
+    navigate("/izle")
+  }
+
+  const handleAddDelivery = () => {
+    let row = {
+      deliveryFullname: deliveryData.deliveryFullname,
+      deliveryPhone: deliveryData.deliveryPhone,
+      cityId: deliveryData.cityId,
+      countyId: deliveryData.countyId,
+      deliveryGoogleMapsLink: deliveryData.deliveryGoogleMapsLink,
+      address: deliveryData.address,
+      deliveryLong: deliveryData.deliveryLong,
+      deliveryLat: deliveryData.deliveryLat
+    }
+
+    setDeliveryRows(deliveryRows => [...deliveryRows, row]);
+  }
 
   return (
     <Grid
@@ -100,7 +113,14 @@ const Sender = () => {
       <Divider />
 
       <Grid item xs={12}>
-        <TextField id="plateno" label="Plaka No" variant="outlined" fullWidth />
+        <TextField
+          id="plateno"
+          label="Plaka No"
+          variant="outlined"
+          fullWidth
+          value={senderData.plateNo}
+          onChange={(e) => fieldOnChange(e.target.value, "plateNo")}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -109,6 +129,8 @@ const Sender = () => {
           label="Sürücü Adı Soyadı"
           variant="outlined"
           fullWidth
+          value={senderData.driverFullname}
+          onChange={(e) => fieldOnChange(e.target.value, "driverFullname")}
         />
       </Grid>
 
@@ -118,6 +140,8 @@ const Sender = () => {
           label="Sürücü Telefon No"
           variant="outlined"
           fullWidth
+          value={senderData.driverPhone}
+          onChange={(e) => fieldOnChange(e.target.value, "driverPhone")}
         />
       </Grid>
 
@@ -128,7 +152,12 @@ const Sender = () => {
       >
         <FormControl fullWidth>
           <InputLabel id="startCityLabel">Başlangıç İli</InputLabel>
-          <Select labelId="startCityLabel" id="startCityId">
+          <Select
+            labelId="startCityLabel"
+            id="startCityId"
+            value={senderData.cityId}
+            onChange={(e) => fieldOnChange(e.target.value, "cityId")}
+          >
             <MenuItem value={10}>KAHRAMANMARAŞ</MenuItem>
             <MenuItem value={20}>HATAY</MenuItem>
           </Select>
@@ -136,7 +165,12 @@ const Sender = () => {
 
         <FormControl fullWidth>
           <InputLabel id="startCountLabel">Başlangıç İlçesi</InputLabel>
-          <Select labelId="startCountLabel" id="startCountId">
+          <Select
+            labelId="startCountLabel"
+            id="startCountId"
+            value={senderData.countyId}
+            onChange={(e) => fieldOnChange(e.target.value, "countyId")}
+          >
             <MenuItem value={10}>ilçe 1</MenuItem>
             <MenuItem value={20}>ilçe 2</MenuItem>
           </Select>
@@ -145,12 +179,14 @@ const Sender = () => {
 
       <Grid item xs={12}>
         <TextField
-          id="startAddressAddress"
+          id="startAddress"
           label="Başlangıç Adresi"
           variant="outlined"
           fullWidth
           multiline={true}
           rows={2}
+          value={senderData.startAddress}
+          onChange={(e) => fieldOnChange(e.target.value, "startAddress")}
         />
       </Grid>
 
@@ -170,6 +206,8 @@ const Sender = () => {
           variant="outlined"
           placeholder="https://www.google.com/maps/place/@..."
           fullWidth
+          value={senderData.googleMapsLink}
+          onChange={(e) => fieldOnChange(e.target.value, "googleMapsLink")}
         />
 
         <Tooltip title="Kalkış noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
@@ -181,12 +219,25 @@ const Sender = () => {
 
       <Grid item xs={12}>
         <TextField
+          id="partial-count"
+          label="Koli Sayısı"
+          variant="outlined"
+          fullWidth
+          value={senderData.partialcount}
+          onChange={(e) => fieldOnChange(e.target.value, "partialcount")}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextField
           id="inventory"
           label="Envanterler"
           variant="outlined"
           fullWidth
           multiline={true}
           rows={5}
+          value={senderData.inventory}
+          onChange={(e) => fieldOnChange(e.target.value, "inventory")}
         />
       </Grid>
       <Divider />
@@ -200,6 +251,8 @@ const Sender = () => {
           label="Alıcı Adı Soyadı"
           variant="outlined"
           fullWidth
+          value={deliveryData.deliveryFullname}
+          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryFullname")}
         />
       </Grid>
 
@@ -209,6 +262,8 @@ const Sender = () => {
           label="Alıcı Telefon No"
           variant="outlined"
           fullWidth
+          value={deliveryData.deliveryPhone}
+          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryPhone")}
         />
       </Grid>
 
@@ -219,7 +274,12 @@ const Sender = () => {
       >
         <FormControl fullWidth>
           <InputLabel id="deliveryCityLabel">Teslim İli</InputLabel>
-          <Select labelId="deliveryCityLabel" id="deliveryCityId">
+          <Select
+            labelId="deliveryCityLabel"
+            id="deliveryCityId"
+            value={deliveryData.cityId}
+            onChange={(e) => deliveryFieldOnChange(e.target.value, "cityId")}
+          >
             <MenuItem value={10}>KAHRAMANMARAŞ</MenuItem>
             <MenuItem value={20}>HATAY</MenuItem>
           </Select>
@@ -227,7 +287,12 @@ const Sender = () => {
 
         <FormControl fullWidth>
           <InputLabel id="deliveryCountLabel">Teslim İlçesi</InputLabel>
-          <Select labelId="deliveryCountLabel" id="deliveryCountId">
+          <Select
+            labelId="deliveryCountLabel"
+            id="deliveryCountId"
+            value={deliveryData.countyId}
+            onChange={(e) => deliveryFieldOnChange(e.target.value, "countyId")}
+          >
             <MenuItem value={10}>ilçe 1</MenuItem>
             <MenuItem value={20}>ilçe 2</MenuItem>
           </Select>
@@ -250,6 +315,8 @@ const Sender = () => {
           variant="outlined"
           placeholder="https://www.google.com/maps/place/@..."
           fullWidth
+          value={deliveryData.deliveryGoogleMapsLink}
+          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryGoogleMapsLink")}
         />
 
         <Tooltip title="Teslim noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
@@ -267,6 +334,8 @@ const Sender = () => {
           fullWidth
           multiline={true}
           rows={2}
+          value={deliveryData.address}
+          onChange={(e) => deliveryFieldOnChange(e.target.value, "address")}
         />
       </Grid>
 
@@ -275,7 +344,7 @@ const Sender = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        <Button variant="outlined" startIcon={<AddIcon />}>
+        <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddDelivery}>
           Ekle
         </Button>
       </Grid>
@@ -292,12 +361,18 @@ const Sender = () => {
                   Telefon No
                 </TableCell>
                 <TableCell align="right" style={{ fontWeight: "700" }}>
-                  Adresi
+                  İl
+                </TableCell>
+                <TableCell align="right" style={{ fontWeight: "700" }}>
+                  İlçe
+                </TableCell>
+                <TableCell align="right" style={{ fontWeight: "700" }}>
+                  Adres
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
+              {deliveryRows.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -306,6 +381,8 @@ const Sender = () => {
                     {row.deliveryFullname}
                   </TableCell>
                   <TableCell align="center">{row.deliveryPhone}</TableCell>
+                  <TableCell align="right">{row.cityId}</TableCell>
+                  <TableCell align="right">{row.countyId}</TableCell>
                   <TableCell align="right">{row.address}</TableCell>
                 </TableRow>
               ))}
@@ -319,7 +396,7 @@ const Sender = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        <Button variant="contained" onClick={() => navigate("/izle")}>
+        <Button variant="contained" onClick={() => handleRegisterTruck()}>
           Kayıt Oluştur
         </Button>
       </Grid>
