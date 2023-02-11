@@ -17,10 +17,13 @@ const useGeoLocation = () => {
     userDecisionTimeout: 5000,
   });
 
-
-  // useEffect(() => {
-  //   handleReadGeoLocation();
-  // }, []);
+  useEffect(() => {
+    // getPosition();
+    console.log("yenilendi: ", Date.now());
+    console.log("coords", coords);
+    console.log("lat", coords?.latitude);
+    console.log("lon", coords?.longitude);
+  }, [coords]);
 
   // const getLocation = useCallback(() => {
   //   handleReadGeoLocation();
