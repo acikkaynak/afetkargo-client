@@ -107,7 +107,7 @@ const Sender = () => {
       }}
     >
       <Grid item xs={12}>
-        <Typography variant="h4">afetkargo | Lojistik Teslim</Typography>
+        <Typography variant="h4">afetkargo | Kargo Girişi</Typography>
       </Grid>
 
       <Divider />

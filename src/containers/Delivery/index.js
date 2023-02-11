@@ -65,7 +65,7 @@ const Delivery = () => {
   };
 
   const [senderData, setSenderData] = useState({
-    code: "",
+    code: "#12345678",
     plateNo: "07GG056",
     driverFullname: "Özge",
     driverPhone: "05334443322",
@@ -97,8 +97,27 @@ const Delivery = () => {
         padding: "24px",
       }}
     >
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h4">afetkargo | Lojistik Teslim</Typography>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+          }}
+        >
+          <Typography variant="h8">{senderData?.code}</Typography>
+          <Typography variant="h8">Durumu:</Typography>
+        </div>
       </Grid>
 
       <Divider />

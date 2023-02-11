@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <>
-      <Header text="Şoför Girişi" />
+      <Header text="Admin Girişi" />
       <Card
         style={{
           display: "flex",
@@ -63,7 +63,7 @@ const Login = () => {
             <StyledGrid item xs={12}>
               <TextField
                 id="plateno"
-                label="Plaka No"
+                label="Kullanıcı Adı"
                 variant="outlined"
                 fullWidth
               />
