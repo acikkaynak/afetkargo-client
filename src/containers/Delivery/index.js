@@ -22,10 +22,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import "leaflet/dist/leaflet.css";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 import getRecieverInfosRequest from "../../api/getRecieverInfos";
 import getDriverLocationInfoRequest from "../../api/getDriverLocationInfo";
+import { useNavigate } from "react-router-dom";
 
 const StyledMarker = styled(Marker)``;
 
@@ -65,6 +67,8 @@ const Delivery = () => {
   const [defaultCenter, setDefaultCenter] = useState([]);
   const [receiverInfos, setReceiverInfos] = useState();
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const data = {
       receiverPassword: "6BBDHL",
@@ -288,6 +292,7 @@ const Delivery = () => {
             />
 
             <Button variant="contained">Teslimatı Bildir</Button>
+            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>Geri Dön</Button>
           </Grid>
         </Grid>
       )}

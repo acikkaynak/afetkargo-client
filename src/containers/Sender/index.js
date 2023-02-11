@@ -22,6 +22,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import createCargoRequest from "../../api/createCargoRequest"
 
@@ -43,7 +44,7 @@ const Sender = () => {
     long: "",
     lat: "",
     inventory: "",
-    endAddressList: []
+    endAddressList: [],
   });
 
   const [deliveryData, setDeliveryData] = useState({
@@ -59,15 +60,15 @@ const Sender = () => {
 
   const fieldOnChange = (value, field) => {
     let tempData = Object.assign({}, senderData);
-    tempData[field] = value
+    tempData[field] = value;
     setSenderData(tempData);
-  }
+  };
 
   const deliveryFieldOnChange = (value, field) => {
     let tempData = Object.assign({}, deliveryData);
     tempData[field] = value;
     setDeliveryData(tempData);
-  }
+  };
 
   const handleRegisterTruck = async () => {
     const tempAllData = Object.assign({}, senderData);
@@ -78,8 +79,8 @@ const Sender = () => {
     const response = await createCargoRequest(tempAllData)
     console.log("response", response);
     if (response.code === 200){
-      navigate("/izle")
-    }
+      navigate("/izle");
+    };
   }
 
   const handleAddDelivery = () => {
@@ -91,11 +92,11 @@ const Sender = () => {
       deliveryGoogleMapsLink: deliveryData.deliveryGoogleMapsLink,
       address: deliveryData.address,
       deliveryLong: deliveryData.deliveryLong,
-      deliveryLat: deliveryData.deliveryLat
-    }
+      deliveryLat: deliveryData.deliveryLat,
+    };
 
-    setDeliveryRows(deliveryRows => [...deliveryRows, row]);
-  }
+    setDeliveryRows((deliveryRows) => [...deliveryRows, row]);
+  };
 
   return (
     <Grid
@@ -253,7 +254,9 @@ const Sender = () => {
           variant="outlined"
           fullWidth
           value={deliveryData.deliveryFullname}
-          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryFullname")}
+          onChange={(e) =>
+            deliveryFieldOnChange(e.target.value, "deliveryFullname")
+          }
         />
       </Grid>
 
@@ -264,7 +267,9 @@ const Sender = () => {
           variant="outlined"
           fullWidth
           value={deliveryData.deliveryPhone}
-          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryPhone")}
+          onChange={(e) =>
+            deliveryFieldOnChange(e.target.value, "deliveryPhone")
+          }
         />
       </Grid>
 
@@ -317,7 +322,9 @@ const Sender = () => {
           placeholder="https://www.google.com/maps/place/@..."
           fullWidth
           value={deliveryData.deliveryGoogleMapsLink}
-          onChange={(e) => deliveryFieldOnChange(e.target.value, "deliveryGoogleMapsLink")}
+          onChange={(e) =>
+            deliveryFieldOnChange(e.target.value, "deliveryGoogleMapsLink")
+          }
         />
 
         <Tooltip title="Teslim noktasının adres bilgisini google maps üzerinden bulup, adres linkini kopyalayıp buraya yapıştırabilirsiniz.">
@@ -345,7 +352,11 @@ const Sender = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        <Button variant="outlined" startIcon={<AddIcon />} onClick={handleAddDelivery}>
+        <Button
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={handleAddDelivery}
+        >
           Ekle
         </Button>
       </Grid>
@@ -391,15 +402,25 @@ const Sender = () => {
           </Table>
         </TableContainer>
       </Grid>
-
-      <Grid
-        item
-        xs={12}
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <Button variant="contained" onClick={() => handleRegisterTruck()}>
-          Kayıt Oluştur
-        </Button>
+      <Grid container>
+        <Grid
+          item
+          xs={6}
+          style={{ display: "flex", justifyContent: "flex-start" }}
+        >
+          <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+            Geri Dön
+          </Button>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Button variant="contained" onClick={() => {handleRegisterTruck()}}>
+            Kayıt Oluştur
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

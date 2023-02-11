@@ -13,6 +13,7 @@ import { pink } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import driverLoginRequest from "../../api/driverLoginRequest";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -28,12 +29,12 @@ const Login = () => {
     const data = new FormData(event.currentTarget);
     let formData = {
       plateNo: data.get("plate"),
-      driverPassword: data.get("password")
+      driverPassword: data.get("password"),
     };
     const result = await driverLoginRequest(formData);
-    if(result?.code === 200){
-      localStorage.setItem('afetkargo_surucu', JSON.stringify(result?.data));
-      navigate('/izle');
+    if (result?.code === 200) {
+      localStorage.setItem("afetkargo_surucu", JSON.stringify(result?.data));
+      navigate("/izle");
     }
     console.log(result);
   };
@@ -104,6 +105,11 @@ const Login = () => {
                 type="submit"
               >
                 Giriş yap
+              </Button>
+            </StyledGrid>
+            <StyledGrid item xs={12}>
+              <Button variant="outlined" startIcon={<ArrowBackIcon />} fullWidth={true} onClick={() => navigate(-1)}>
+                Anasayfaya Dön
               </Button>
             </StyledGrid>
           </Grid>
