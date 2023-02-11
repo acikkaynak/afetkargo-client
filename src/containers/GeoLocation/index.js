@@ -37,7 +37,7 @@ const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
 
       const interval = setInterval(() => {
         postLocation();
-      }, 5000);
+      }, 60 * 1000 * process.env.REACT_APP_REFRESH_MIN);
 
       return () => clearInterval(interval);
     }
