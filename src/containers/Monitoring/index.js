@@ -66,9 +66,10 @@ const Monitoring = () => {
     partialcount: 0,
   });
 
+  const [isDriverOnRoad, setIsDriverOnRoad] = useState(false);
+
   const driverOnRoad = () => {
-    //endpoint çağır
-    
+    setIsDriverOnRoad(true)
   }
 
   return (
@@ -81,7 +82,7 @@ const Monitoring = () => {
         padding: "24px",
       }}
     >
-      <GeoLocation />
+      <GeoLocation isDriverOnRoad={isDriverOnRoad} driverOnRoad={driverOnRoad}/>
       <Grid item xs={12}>
         <Typography variant="h4">afetkargo | Lojistik İzleme</Typography>
       </Grid>
@@ -153,7 +154,8 @@ const Monitoring = () => {
         xs={12}
         style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
       >
-        <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>
+        {!isDriverOnRoad && <Button variant="contained" onClick={driverOnRoad}>Yola çıktım</Button>}
+        {isDriverOnRoad && <span>Konum bilgileriniz alınmıştır.</span>}
         <Button
           variant="contained"
           style={{ backgroundColor: "green" }}

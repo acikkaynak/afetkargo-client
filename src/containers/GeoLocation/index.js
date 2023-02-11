@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useGeolocated } from "react-geolocated";
 
-const useGeoLocation = () => {
+import setLocationRequest from "../../api/setLocation";
+
+const useGeoLocation = ({ isDriverOnRoad, driverOnRoad }) => {
   const {
     coords,
     timestamp, // timestamp of when the last position was retrieved
@@ -23,13 +25,31 @@ const useGeoLocation = () => {
     // getPosition();
     if (coords?.latitude !== latitude)
       setLatitude(coords?.latitude);
-    if (coords?.longitude !== longitude) 
+    if (coords?.longitude !== longitude)
       setLongitude(coords?.longitude);
     console.log("yenilendi: ", Date.now());
     console.log("coords", coords);
     console.log("lat", coords?.latitude);
     console.log("lon", coords?.longitude);
   }, [coords]);
+
+  useEffect(() => {
+    if (isDriverOnRoad) {
+      window.setInterval(() => {
+        postLocation()
+      }, 1000 * 60 * 15)
+    }
+  }, [isDriverOnRoad])
+
+  const postLocation = () => {
+    const data = {
+      "cargoId": "123123-123123-123dsfdfgdfgd-22342",
+      "lat": latitude,
+      "long": longitude
+    };
+    const result = setLocationRequest(data);
+    console.log("result", result)
+  }
 
   // const getLocation = useCallback(() => {
   //   handleReadGeoLocation();
