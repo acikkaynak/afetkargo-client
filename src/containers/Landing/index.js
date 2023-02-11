@@ -49,7 +49,7 @@ const Login = () => {
           >
             <Button variant="contained" onClick={()=> navigate('/login')}>Sürücüyüm</Button>
             <Button variant="contained" onClick={()=> navigate('/kayit')}>Kargo Göndermek İstiyorum</Button>
-            <Button variant="contained" onClick={()=> navigate('/teslim')}>Alıcıyım</Button>
+            <Button variant="contained" onClick={()=> navigate('/delivery-login')}>Alıcıyım</Button>
           </Grid>
         </CardContent>
       </Card>

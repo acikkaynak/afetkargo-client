@@ -11,6 +11,7 @@ import Layout from "./containers/Layout";
 import AdminDashboard from "./containers/AdminDashbord";
 import Register from "./containers/Register";
 import Landing from "./containers/Landing";
+import DeliveryLogin from "./containers/DeliveryLogin";
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/" element={<Landing />} />
+          <Route path="/delivery-login" element={<DeliveryLogin />} />
           <Route
             path="/admin-dashboard"
             element={
