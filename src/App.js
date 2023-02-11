@@ -22,13 +22,27 @@ function App() {
           <Route
             path="/kayit"
             element={
-              <Layout title="Lojistik Bildirimi">
+              <Layout>
                 <Sender />
               </Layout>
             }
           />
-          <Route path="/izle" element={<Monitoring />} />
-          <Route path="/teslim" element={<Delivery />} />
+          <Route
+            path="/izle"
+            element={
+              <Layout>
+                <Monitoring />
+              </Layout>
+            }
+          />
+          <Route
+            path="/teslim"
+            element={
+              <Layout>
+                <Delivery />
+              </Layout>
+            }
+          />
         </Routes>
       </Router>
     </Wrapper>

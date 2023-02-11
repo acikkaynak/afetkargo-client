@@ -1,11 +1,11 @@
-import { Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 const Layout = ({ title, children }) => {
   return (
-    <Fragment>
-      {children}
-    </Fragment>
+    <Card style={{ margin: "24px" }}>
+      <CardContent>{children}</CardContent>
+    </Card>
   );
 };
 
