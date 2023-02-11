@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { pink } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
+import driverLoginRequest from "../../api/driverLoginRequest";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -22,7 +23,16 @@ const StyledGrid = styled(Grid)`
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    let formData = {
+      plate: data.get("plate"),
+      password: data.get("password")
+    };
+    const result = await driverLoginRequest(formData);
+    console.log(result);
+  };
   return (
     <>
       <Header text="Şoför Girişi" />
@@ -39,6 +49,8 @@ const Login = () => {
         <CardContent>
           <Grid
             container
+            component="form"
+            onSubmit={handleSubmit}
             style={{
               display: "flex",
               justifyContent: "center",
@@ -63,6 +75,7 @@ const Login = () => {
             <StyledGrid item xs={12}>
               <TextField
                 id="plateno"
+                name="plate"
                 label="Plaka No"
                 variant="outlined"
                 fullWidth
@@ -72,6 +85,7 @@ const Login = () => {
             <StyledGrid item xs={12}>
               <TextField
                 id="password"
+                name="password"
                 label="Şifre"
                 variant="outlined"
                 fullWidth
@@ -83,7 +97,7 @@ const Login = () => {
                 variant="contained"
                 fullWidth={true}
                 style={{ textTransform: "none" }}
-                onClick={() => navigate("/kayit")}
+                type="submit"
               >
                 Giriş yap
               </Button>
