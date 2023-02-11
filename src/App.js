@@ -10,6 +10,7 @@ import styled from "styled-components";
 import Layout from "./containers/Layout";
 import AdminDashboard from "./containers/AdminDashbord";
 import Register from "./containers/Register";
+import Landing from "./containers/Landing";
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -21,8 +22,9 @@ function App() {
     <Wrapper>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/" element={<Landing />} />
           <Route
             path="/admin-dashboard"
             element={
