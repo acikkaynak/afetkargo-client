@@ -1,4 +1,5 @@
 import {
+  Alert,
   Avatar,
   Button,
   Card,
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import driverLoginRequest from "../../api/driverLoginRequest";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useState } from "react";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -24,6 +26,9 @@ const StyledGrid = styled(Grid)`
 
 const Login = () => {
   const navigate = useNavigate();
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,6 +41,9 @@ const Login = () => {
       localStorage.setItem("afetkargo_surucu", JSON.stringify(result?.data));
       localStorage.setItem("afetkargo_surucu_info", JSON.stringify(formData));
       navigate("/izle");
+    } else {
+      setShowMessage(true);
+      setMessage(result?.message ?? "Beklenmedik bir hata oluştu.");
     }
     console.log(result);
   };
@@ -98,6 +106,14 @@ const Login = () => {
               />
             </StyledGrid>
 
+            {showMessage ? (
+              <StyledGrid item xs={12}>
+                <Alert severity="error" sx={{ width: "100%" }}>
+                  {message}
+                </Alert>
+              </StyledGrid>
+            ) : null}
+
             <StyledGrid item xs={12} style={{ marginTop: "20px" }}>
               <Button
                 variant="contained"
@@ -109,7 +125,12 @@ const Login = () => {
               </Button>
             </StyledGrid>
             <StyledGrid item xs={12}>
-              <Button variant="outlined" startIcon={<ArrowBackIcon />} fullWidth={true} onClick={() => navigate(-1)}>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIcon />}
+                fullWidth={true}
+                onClick={() => navigate(-1)}
+              >
                 Anasayfaya Dön
               </Button>
             </StyledGrid>
