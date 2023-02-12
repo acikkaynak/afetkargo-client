@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect, useRef, useMemo } from "react";
 import "../../../src/index.css";
 
 import {
@@ -12,33 +11,15 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import "leaflet/dist/leaflet.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import getRecieverInfosRequest from "../../api/getRecieverInfos";
 import getDriverLocationInfoRequest from "../../api/getDriverLocationInfo";
 import { useNavigate } from "react-router-dom";
-
-const StyledMarker = styled(Marker)``;
-
-function createData(
-  deliveryFullname,
-  deliveryPhone,
-  address,
-  deliveryGoogleMapsLink
-) {
-  return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
-}
 
 const Delivery = () => {
   const [age, setAge] = useState("");
@@ -134,22 +115,26 @@ const Delivery = () => {
           <Grid item xs={12}>
             <MapContainer
               center={defaultCenter}
-              zoom={13}
+              zoom={15}
               scrollWheelZoom={false}
               style={{
                 width: "100%",
-                height: "400px",
+                height: "400px"
               }}
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <StyledMarker position={defaultCenter} id="marker-wrapper">
+              <Marker
+                id="marker-wrapper"
+                draggable={true}
+                position={defaultCenter}
+              >
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
-              </StyledMarker>
+              </Marker>
             </MapContainer>
           </Grid>
 

@@ -1,27 +1,25 @@
-import { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import AddIcon from "@mui/icons-material/Add";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
-  Button,
+  Alert,
+  Autocomplete, Button,
   Divider,
   Grid,
   TextField,
-  Typography,
-  Alert
+  Typography
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import createCargoRequest from "../../api/createCargoRequest"
+import createCargoRequest from "../../api/createCargoRequest";
+
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -41,6 +39,14 @@ const Sender = () => {
   const [message, setMessage] = useState(false);
 
   const [deliveryRows, setDeliveryRows] = useState([]);
+
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const provider = new OpenStreetMapProvider();
+
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
 
   const [senderData, setSenderData] = useState({
     plateNo: "",
@@ -65,6 +71,43 @@ const Sender = () => {
     destinationLat: 37.5553633,
     destinationLong: 36.8415523
   });
+
+  const [defaultCenter, setDefaultCenter] = useState([38.9637, 35.2433]);
+
+  const eventHandlers = useMemo(() => ({
+    dragend() {
+      const marker = markerRef.current
+      if (marker != null) {
+        setDefaultCenter([marker.getLatLng().lat, marker.getLatLng().lng])
+        mapRef.current.flyTo(marker.getLatLng(), 16);
+      }
+    },
+  }), [])
+
+  useEffect(() => {
+    getSearchList();
+  }, [searchInput])
+
+  const getSearchList = async () => {
+    const results = await provider.search({ query: searchInput });
+    const converted = results.map((item, index) => ({
+      id: index,
+      label: item.label,
+      lat: item.y,
+      long: item.x
+    }));
+    setSearchResults(converted);
+  }
+
+  const handleAdressSelect = (selectedAdress) => {
+    setSearchInput(selectedAdress.label);
+    setDefaultCenter([selectedAdress.lat, selectedAdress.long]);
+    mapRef.current.flyTo([selectedAdress.lat, selectedAdress.long], 16);
+  }
+
+  const searchInputChange = (inputValue) => {
+    setSearchInput(inputValue);
+  }
 
   const fieldOnChange = (value, field) => {
     let tempData = Object.assign({}, senderData);
@@ -101,11 +144,12 @@ const Sender = () => {
       receiverFullname: deliveryData.receiverFullname,
       receiverPhone: deliveryData.receiverPhone,
       destinationAddress: deliveryData.destinationAddress,
-      destinationLat: deliveryData.destinationLat,
-      destinationLong: deliveryData.destinationLong
+      destinationLat: defaultCenter[0],
+      destinationLong: defaultCenter[1]
     };
 
     setDeliveryRows((deliveryRows) => [...deliveryRows, row]);
+    clearReceiverData()
   };
 
   const copyInfos = () => {
@@ -116,6 +160,20 @@ const Sender = () => {
       Teslimat Şifresi: ${resultData.receiverPassword}
     `;
     navigator.clipboard.writeText(copiedData);
+  }
+
+  const clearReceiverData = () => {
+    setDeliveryData({
+      cargoId: cargoId,
+      receiverFullname: "",
+      receiverPhone: "",
+      destinationAddress: "",
+      destinationLat: 37.5553633,
+      destinationLong: 36.8415523
+    })
+    setDefaultCenter([38.9637, 35.2433]);
+    mapRef.current.flyTo([38.9637, 35.2433], 5)
+    setSearchInput("");
   }
 
   return (
@@ -353,7 +411,7 @@ const Sender = () => {
             </Tooltip>
           </Grid> */}
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TextField
               id="destinationAddress"
               label="Teslim Adresi"
@@ -364,6 +422,52 @@ const Sender = () => {
               value={deliveryData.destinationAddress}
               onChange={(e) => deliveryFieldOnChange(e.target.value, "destinationAddress")}
             />
+          </Grid> */}
+
+          <Autocomplete
+            disablePortal
+            id="location-search"
+            options={searchResults}
+            value={searchInput}
+            onChange={(e, value) => handleAdressSelect(value)}
+            renderInput={(params) =>
+              <TextField
+                {...params}
+                label="Adres Ara"
+                onChange={(e) => searchInputChange(e.target.value)}
+              />}
+          />
+
+          {defaultCenter?.length &&
+            <Grid>
+              <span>Güncel Koordinatlar: </span>
+              <span>{defaultCenter[0]}, {defaultCenter[1]}</span>
+            </Grid>
+          }
+
+          <Grid item xs={12}>
+            <MapContainer
+              ref={mapRef}
+              center={defaultCenter}
+              zoom={5}
+              scrollWheelZoom={false}
+              style={{
+                width: "100%",
+                height: "400px"
+              }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker
+                id="marker-wrapper"
+                ref={markerRef}
+                draggable={true}
+                eventHandlers={eventHandlers}
+                position={defaultCenter}
+              />
+            </MapContainer>
           </Grid>
 
           <Grid
@@ -384,7 +488,7 @@ const Sender = () => {
             <Typography variant="h6">Alıcı Listesi</Typography>
           </Grid>
           <Grid item xs={12}>
-            <TableContainer component={Paper}>
+            {/* <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
@@ -395,7 +499,7 @@ const Sender = () => {
                       Telefon No
                     </TableCell>
                     <TableCell align="right" style={{ fontWeight: "700" }}>
-                      Adres
+                      Koordinatlar
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -409,12 +513,68 @@ const Sender = () => {
                         {row.receiverFullname}
                       </TableCell>
                       <TableCell align="center">{row.receiverPhone}</TableCell>
-                      <TableCell align="right">{row.destinationAddress}</TableCell>
+                      <TableCell align="right">{row.destinationLat} - {row.destinationLong}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
-            </TableContainer>
+            </TableContainer> */}
+            {deliveryRows.map((row, index) => (
+              <List key={index} sx={{ width: '100%' }}>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Alıcı Adı Soyadı"
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {row.receiverFullname}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Cep Telefonu"
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {row.receiverPhone}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary="Koordinatlar"
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {row.destinationLat} - {row.destinationLong}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <Divider />
+              </List>
+            ))}
           </Grid>
           {showMessage ? (
             <StyledGrid item xs={12}>
