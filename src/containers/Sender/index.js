@@ -44,7 +44,7 @@ const Sender = () => {
     destinationAddress: "",
     originLat: 37.5553633,
     originLong: 36.8415523,
-    partialcount: 0,
+    partialCount: 0,
     companyName: "",
     destinationCountyId: 46,
     destinationCityId: 1,
@@ -123,7 +123,7 @@ const Sender = () => {
               variant="outlined"
               fullWidth
               value={senderData.plateNo}
-              onChange={(e) => fieldOnChange(e.target.value, "plateNo")}
+              onChange={(e) => fieldOnChange(e.target.value.toUpperCase(), "plateNo")}
             />
           </Grid>
 
@@ -227,8 +227,8 @@ const Sender = () => {
               label="Koli Sayısı"
               variant="outlined"
               fullWidth
-              value={senderData.partialcount}
-              onChange={(e) => fieldOnChange(e.target.value, "partialcount")}
+              value={senderData.partialCount}
+              onChange={(e) => fieldOnChange(+e.target.value, "partialCount")}
             />
           </Grid>
 
@@ -416,7 +416,7 @@ const Sender = () => {
           </Grid>
         </Grid> 
         :
-        <Grid>
+        <Grid display={"flex"} flexDirection={"column"} gap={"15px"}>
           <span>Kaydınız Oluşturulmuştur.</span>
           <span>Kargo Kodu: {resultData.cargoCode}</span>
           <span>Sürücü Şifresi: {resultData.driverPassword}</span>
