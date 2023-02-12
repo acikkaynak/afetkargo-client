@@ -75,14 +75,14 @@ const Delivery = () => {
       plateNo: "06DTO84",
     };
 
-    setCargoId(localStorage.getItem("afetkargo_surucu"));
+    setCargoId(localStorage.getItem("afetkargo_surucu").id);
     getReceiverData(data);
     getDriverLocationInfo(cargoId);
   }, []);
 
   useEffect(() => {
     window.setInterval(() => {
-      getDriverLocationInfo();
+      getDriverLocationInfo(cargoId);
     }, 1000 * 60 * 15);
   }, []);
 

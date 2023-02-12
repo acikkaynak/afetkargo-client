@@ -194,7 +194,7 @@ const Sender = () => {
             />
           </Grid>
 
-          <Grid
+          {/* <Grid
             item
             xs={12}
             style={{
@@ -219,7 +219,7 @@ const Sender = () => {
                 <HelpOutlineIcon />
               </IconButton>
             </Tooltip>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <TextField
@@ -307,7 +307,7 @@ const Sender = () => {
       </FormControl>
     </Grid> */}
 
-          <Grid
+          {/* <Grid
             item
             xs={12}
             style={{
@@ -332,7 +332,7 @@ const Sender = () => {
                 <HelpOutlineIcon />
               </IconButton>
             </Tooltip>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <TextField
@@ -357,7 +357,7 @@ const Sender = () => {
               startIcon={<AddIcon />}
               onClick={handleAddDelivery}
             >
-              Ekle
+              Alıcıyı Ekle
             </Button>
           </Grid>
 
@@ -414,13 +414,24 @@ const Sender = () => {
               </Button>
             </Grid>
           </Grid>
-        </Grid> 
+        </Grid>
         :
-        <Grid display={"flex"} flexDirection={"column"} gap={"15px"}>
-          <span>Kaydınız Oluşturulmuştur.</span>
-          <span>Kargo Kodu: {resultData.cargoCode}</span>
-          <span>Sürücü Şifresi: {resultData.driverPassword}</span>
-          <span>Teslimat Şifresi: {resultData.receiverPassword}</span>
+        <Grid display={"flex"} flexDirection={"column"} gap={"20px"}>
+          <Grid display={"flex"} flexDirection={"column"} gap={"15px"}>
+            <span>Kaydınız Oluşturulmuştur.</span>
+            <span>Kargo Kodu: {resultData.cargoCode}</span>
+            <span>Sürücü Şifresi: {resultData.driverPassword}</span>
+            <span>Teslimat Şifresi: {resultData.receiverPassword}</span>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            style={{ display: "flex", justifyContent: "flex-start" }}
+          >
+            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+              Geri Dön
+            </Button>
+          </Grid>
         </Grid>
       }
     </>
