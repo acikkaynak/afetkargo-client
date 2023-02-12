@@ -248,7 +248,6 @@ const Sender = () => {
           <Grid item xs={12}>
             <Typography variant="h6">Alıcı Ekle</Typography>
           </Grid>
-
           <Grid item xs={12}>
             <TextField
               id="receiverFullname"
@@ -360,7 +359,10 @@ const Sender = () => {
               Alıcıyı Ekle
             </Button>
           </Grid>
-
+          <Divider />
+          <Grid item xs={12}>
+            <Typography variant="h6">Alıcı Listesi</Typography>
+          </Grid>
           <Grid item xs={12}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
