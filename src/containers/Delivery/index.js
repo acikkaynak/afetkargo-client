@@ -40,44 +40,27 @@ function createData(
   return { deliveryFullname, deliveryPhone, address, deliveryGoogleMapsLink };
 }
 
-const rows = [
-  createData(
-    "Emirhan",
-    "05553902323",
-    "Bağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Demirhan",
-    "05553902323",
-    "Yağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-  createData(
-    "Cemirhan",
-    "05553902323",
-    "Dağcılar",
-    "https://www.google.com/maps/place/Crystal+Admiral+Resort+Suites+%26+SPA/@36.6949113,31.6098093,13.75z/data=!4m8!3m7!1s0x14c3536c30bc9b99:0x5cbeef369867e031!5m2!4m1!1i2!8m2!3d36.6950891!4d31.5976238"
-  ),
-];
-
 const Delivery = () => {
   const [age, setAge] = useState("");
   const [cargoId, setCargoId] = useState("");
   const [defaultCenter, setDefaultCenter] = useState([]);
   const [receiverInfos, setReceiverInfos] = useState();
+  const [alici, setAlici] = useState();
 
   const navigate = useNavigate();
   
   useEffect(() => {
-    const data = {
-      receiverPassword: "6BBDHL",
-      plateNo: "06DTO84",
-    };
+    setAlici(localStorage.getItem("afetkargo_alici_info"));
 
-    setCargoId(localStorage.getItem("afetkargo_surucu").id);
-    getReceiverData(data);
-    getDriverLocationInfo(cargoId);
+    setTimeout(() => {
+      const data = {
+        receiverPassword: alici.receiverPassword,
+        plateNo: alici.plateNo,
+      };
+  
+      getReceiverData(data);
+      getDriverLocationInfo(cargoId);
+    })
   }, []);
 
   useEffect(() => {
@@ -88,7 +71,10 @@ const Delivery = () => {
 
   const getReceiverData = async (data) => {
     const response = await getRecieverInfosRequest(data);
+
     setReceiverInfos(response.data);
+    setCargoId(response.data.id);
+    
     setDefaultCenter([response.data.lat, response.data.long]);
   };
 
