@@ -21,12 +21,21 @@ import createCargoRequest from "../../api/createCargoRequest";
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
 const StyledGrid = styled(Grid)`
   display: flex;
   align-items: center;
   justify-content: center;
   align-items: center;
 `;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
 
 const Sender = () => {
   const navigate = useNavigate();

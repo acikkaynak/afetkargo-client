@@ -11,8 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-img.leaflet-marker-icon {
-  content: url("../public/icons/marker-icon.png") !important;
-  width: auto !important;
-}
