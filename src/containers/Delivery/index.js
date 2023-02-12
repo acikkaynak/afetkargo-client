@@ -128,6 +128,10 @@ const Delivery = () => {
           <Divider />
 
           <Grid item xs={12}>
+            <Typography variant="h6">Başlangıç Adresi</Typography>
+          </Grid>
+
+          <Grid item xs={12}>
             <MapContainer
               center={defaultCenter}
               zoom={13}
