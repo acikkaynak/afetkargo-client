@@ -1,17 +1,15 @@
+import { useState } from "react";
+import styled from "styled-components";
+
 import AddIcon from "@mui/icons-material/Add";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import {
   Button,
   Divider,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
-  Tooltip,
   Typography,
+  Alert
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -20,18 +18,27 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import createCargoRequest from "../../api/createCargoRequest"
 
+const StyledGrid = styled(Grid)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Sender = () => {
   const navigate = useNavigate();
-  const cargoId = JSON.parse(localStorage.getItem("afetkargo_surucu")).id
+  const cargoId = localStorage.getItem("afetkargo_surucu") ? JSON.parse(localStorage.getItem("afetkargo_surucu")).id : ""
 
   const [showResult, setShowResult] = useState(false);
   const [resultData, setResultData] = useState([]);
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const [deliveryRows, setDeliveryRows] = useState([]);
 
@@ -82,7 +89,10 @@ const Sender = () => {
     if (response.code === 200) {
       setShowResult(true)
       setResultData(response.data);
-    };
+    } else {
+      setShowMessage(true);
+      setMessage(response?.message ?? "Kayıt oluşturulurken hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin.");
+    }
   }
 
   const handleAddDelivery = () => {
@@ -97,6 +107,16 @@ const Sender = () => {
 
     setDeliveryRows((deliveryRows) => [...deliveryRows, row]);
   };
+
+  const copyInfos = () => {
+    const copiedData = `
+      Kargo Kodu: ${resultData.cargoCode}
+      Plaka Numarası: ${resultData.plateNo}
+      Sürücü Şifresi: ${resultData.driverPassword}
+      Teslimat Şifresi: ${resultData.receiverPassword}
+    `;
+    navigator.clipboard.writeText(copiedData);
+  }
 
   return (
     <>
@@ -394,6 +414,13 @@ const Sender = () => {
               </Table>
             </TableContainer>
           </Grid>
+          {showMessage ? (
+            <StyledGrid item xs={12}>
+              <Alert severity="error" sx={{ width: "100%" }}>
+                {message}
+              </Alert>
+            </StyledGrid>
+          ) : null}
           <Grid container>
             <Grid
               item
@@ -420,16 +447,20 @@ const Sender = () => {
           <Grid display={"flex"} flexDirection={"column"} gap={"15px"}>
             <span>Kaydınız Oluşturulmuştur.</span>
             <span>Kargo Kodu: {resultData.cargoCode}</span>
+            <span>Plaka Numarası: {resultData.plateNo}</span>
             <span>Sürücü Şifresi: {resultData.driverPassword}</span>
             <span>Teslimat Şifresi: {resultData.receiverPassword}</span>
           </Grid>
           <Grid
             item
             xs={6}
-            style={{ display: "flex", justifyContent: "flex-start" }}
+            style={{ display: "flex", justifyContent: "space-between" }}
           >
             <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
               Geri Dön
+            </Button>
+            <Button variant="contained" onClick={() => copyInfos()}>
+              Bilgileri Kopyala
             </Button>
           </Grid>
         </Grid>

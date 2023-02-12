@@ -12,6 +12,8 @@ import AdminDashboard from "./containers/AdminDashbord";
 import Register from "./containers/Register";
 import Landing from "./containers/Landing";
 import DeliveryLogin from "./containers/DeliveryLogin";
+import DriverKvkk from "./containers/DriverKvkk";
+import ReceiverKvkk from "./containers/ReceiverKvkk";
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -56,6 +58,22 @@ function App() {
           element={
             <Layout>
               <Delivery />
+            </Layout>
+          }
+        />
+        <Route
+          path="/driver-kvkk"
+          element={
+            <Layout>
+              <DriverKvkk />
+            </Layout>
+          }
+        />
+        <Route
+          path="/receiver-kvkk"
+          element={
+            <Layout>
+              <ReceiverKvkk />
             </Layout>
           }
         />

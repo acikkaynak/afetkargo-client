@@ -24,6 +24,17 @@ const StyledGrid = styled(Grid)`
   align-items: center;
 `;
 
+const KVKKGrid = styled(Grid)`
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  box-shadow: 0px 0px 2px rgba(145, 158, 171, 0.24), 0px 16px 32px -4px rgba(145, 158, 171, 0.24);
+  padding: 20px 40px;
+  gap: 20px;
+`;
+
 const Login = () => {
   const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
@@ -33,8 +44,8 @@ const Login = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let formData = {
-      plateNo: data.get("plate"),
-      driverPassword: data.get("password"),
+      plateNo: data.get("plate").toUpperCase(),
+      driverPassword: data.get("password").toUpperCase()
     };
     const result = await driverLoginRequest(formData);
     if (result?.code === 200) {
@@ -93,6 +104,7 @@ const Login = () => {
                 label="Plaka No"
                 variant="outlined"
                 fullWidth
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </StyledGrid>
 
@@ -103,6 +115,7 @@ const Login = () => {
                 label="Şifre"
                 variant="outlined"
                 fullWidth
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </StyledGrid>
 
@@ -136,7 +149,12 @@ const Login = () => {
             </StyledGrid>
           </Grid>
         </CardContent>
+
       </Card>
+      <KVKKGrid>
+        <span><a href="/driver-kvkk" target={"_blank"}>KVKK Aydınlatma metnini</a> okudum ve kabul ediyorum.</span>
+        <Button variant="contained">Kabul Et</Button>
+      </KVKKGrid>
     </>
   );
 };

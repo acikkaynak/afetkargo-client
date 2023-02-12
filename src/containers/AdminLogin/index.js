@@ -66,6 +66,7 @@ const Login = () => {
                 label="Kullanıcı Adı"
                 variant="outlined"
                 fullWidth
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </StyledGrid>
 
@@ -75,6 +76,7 @@ const Login = () => {
                 label="Şifre"
                 variant="outlined"
                 fullWidth
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </StyledGrid>
 
