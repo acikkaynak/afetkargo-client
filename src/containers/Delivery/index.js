@@ -22,7 +22,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import "leaflet/dist/leaflet.css";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
 import getRecieverInfosRequest from "../../api/getRecieverInfos";
@@ -45,22 +45,22 @@ const Delivery = () => {
   const [cargoId, setCargoId] = useState("");
   const [defaultCenter, setDefaultCenter] = useState([]);
   const [receiverInfos, setReceiverInfos] = useState();
-  const [alici, setAlici] = useState();
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    setAlici(localStorage.getItem("afetkargo_alici_info"));
+    const parsedAliciInfo = JSON.parse(
+      localStorage.getItem("afetkargo_alici_info")
+    );
 
     setTimeout(() => {
       const data = {
-        receiverPassword: alici.receiverPassword,
-        plateNo: alici.plateNo,
+        receiverPassword: parsedAliciInfo.receiverPassword,
+        plateNo: parsedAliciInfo.plateNo,
       };
-  
+
       getReceiverData(data);
-      getDriverLocationInfo(cargoId);
-    })
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -74,8 +74,9 @@ const Delivery = () => {
 
     setReceiverInfos(response.data);
     setCargoId(response.data.id);
-    
+
     setDefaultCenter([response.data.lat, response.data.long]);
+    getDriverLocationInfo(response.data.id);
   };
 
   const getDriverLocationInfo = async (cargoId) => {
@@ -120,7 +121,7 @@ const Delivery = () => {
               }}
             >
               <Typography variant="h8">{"#12345678"}</Typography>
-              <Typography variant="h8">Durumu:</Typography>
+              {/* <Typography variant="h8">Durumu:</Typography> */}
             </div>
           </Grid>
 
@@ -206,7 +207,7 @@ const Delivery = () => {
           </Grid>
           <Divider />
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -245,7 +246,7 @@ const Delivery = () => {
             </TableContainer>
           </Grid>
 
-          <Divider />
+          <Divider /> */}
 
           <Grid
             item
@@ -278,7 +279,13 @@ const Delivery = () => {
             />
 
             <Button variant="contained">Teslimatı Bildir</Button>
-            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>Geri Dön</Button>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+            >
+              Geri Dön
+            </Button>
           </Grid>
         </Grid>
       )}

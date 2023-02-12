@@ -34,7 +34,7 @@ const Login = () => {
     const result = await receiverLoginRequest(formData);
     if (result?.code === 200) {
       localStorage.setItem("afetkargo_alici", JSON.stringify(result?.data));
-      localStorage.setItem("afetkargo_alici_info", formData);
+      localStorage.setItem("afetkargo_alici_info", JSON.stringify(formData));
       navigate("/teslim");
     }
     console.log(result);
