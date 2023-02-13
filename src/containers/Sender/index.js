@@ -180,8 +180,9 @@ const Sender = () => {
       destinationLat: 37.5553633,
       destinationLong: 36.8415523
     })
-    setDefaultCenter([38.9637, 35.2433]);
-    mapRef.current.flyTo([38.9637, 35.2433], 5)
+    // * Advice
+    // setDefaultCenter([38.9637, 35.2433]);
+    // mapRef.current.flyTo([38.9637, 35.2433], 5)
     setSearchInput("");
   }
 
