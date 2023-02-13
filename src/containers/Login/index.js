@@ -8,7 +8,7 @@ import {
   CardContent,
   Grid,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,9 +29,18 @@ const KVKKGrid = styled(Grid)`
   position: fixed;
   bottom: 20px;
   left: 20px;
-  box-shadow: 0px 0px 2px rgba(145, 158, 171, 0.24), 0px 16px 32px -4px rgba(145, 158, 171, 0.24);
+  box-shadow: 0px 0px 2px rgba(145, 158, 171, 0.24),
+    0px 16px 32px -4px rgba(145, 158, 171, 0.24);
   padding: 20px 40px;
   gap: 20px;
+`;
+
+const StyledLink = styled.a`
+  font-weight: 700;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Login = () => {
@@ -44,7 +53,7 @@ const Login = () => {
     const data = new FormData(event.currentTarget);
     let formData = {
       plateNo: data.get("plate").toUpperCase(),
-      driverPassword: data.get("password").toUpperCase()
+      driverPassword: data.get("password").toUpperCase(),
     };
     const result = await driverLoginRequest(formData);
     if (result?.code === 200) {
@@ -148,10 +157,19 @@ const Login = () => {
             </StyledGrid>
           </Grid>
         </CardContent>
-
       </Card>
       <KVKKGrid>
-        <span><a href="/driver-kvkk">KVKK Aydınlatma metnini</a> okudum ve kabul ediyorum.</span>
+        <span>
+          <StyledLink
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/driver-kvkk");
+            }}
+          >
+            {"KVKK Aydınlatma metnini "}
+          </StyledLink>
+          okudum ve kabul ediyorum.
+        </span>
         <Button variant="contained">Kabul Et</Button>
       </KVKKGrid>
     </>
