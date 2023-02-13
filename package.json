@@ -9,7 +9,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start-sw": "http-server ./build",
-    "preview": "yarn run build && yarn run start-sw"
+    "preview": "yarn run build && yarn run start-sw",
+    "build:test": "env-cmd -f .env.test react-scripts build",
+    "start:test": "env-cmd -f .env.test react-scripts start",
+    "build:prod": "env-cmd -f .env.prod react-scripts build",
+    "start:prod": "env-cmd -f .env.prod react-scripts start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -28,6 +32,7 @@
     "@unicef/material-ui-currency-textfield": "^0.8.6",
     "apisauce": "^2.1.6",
     "dayjs": "^1.11.6",
+    "env-cmd": "^10.1.0",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.3",
     "leaflet-geosearch": "^3.7.0",
