@@ -17,6 +17,7 @@ import ReceiverKvkk from "./containers/ReceiverKvkk";
 import ReactGA from "react-ga";
 import CookiePolicy from "./containers/CookiePolicy";
 import KvkkPolicy from "./containers/KvkkPolicy";
+import PrivacyPolicy from "./containers/PrivacyPolicy";
 
 const TRACKING_ID = process.env.REACT_APP_GA_CODE;
 
@@ -97,6 +98,14 @@ function App() {
           element={
             <Layout>
               <KvkkPolicy />
+            </Layout>
+          }
+        />
+        <Route
+          path="/gizlilik-politikasi"
+          element={
+            <Layout>
+              <PrivacyPolicy />
             </Layout>
           }
         />
