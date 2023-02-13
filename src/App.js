@@ -14,10 +14,11 @@ import Landing from "./containers/Landing";
 import DeliveryLogin from "./containers/DeliveryLogin";
 import DriverKvkk from "./containers/DriverKvkk";
 import ReceiverKvkk from "./containers/ReceiverKvkk";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
+import CookiePolicy from "./containers/CookiePolicy";
+import KvkkPolicy from "./containers/KvkkPolicy";
 
-const TRACKING_ID = process.env.REACT_APP_GA_CODE
-
+const TRACKING_ID = process.env.REACT_APP_GA_CODE;
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -25,7 +26,6 @@ const Wrapper = styled.div`
 `;
 
 function App() {
-
   ReactGA.initialize(TRACKING_ID);
 
   return (
@@ -81,6 +81,22 @@ function App() {
           element={
             <Layout>
               <ReceiverKvkk />
+            </Layout>
+          }
+        />
+        <Route
+          path="/cerez-politikasi"
+          element={
+            <Layout>
+              <CookiePolicy />
+            </Layout>
+          }
+        />
+        <Route
+          path="/kvkk-aydinlatma-metni"
+          element={
+            <Layout>
+              <KvkkPolicy />
             </Layout>
           }
         />

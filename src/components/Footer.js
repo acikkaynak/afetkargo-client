@@ -1,6 +1,9 @@
 import { Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Grid
@@ -50,9 +53,40 @@ const Footer = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ display: "flex", flexDirection: "column" }}>
-          <Typography sx={{ fontWeight: 500 }}>Gönderici olarak..</Typography>
-          <Typography sx={{ fontWeight: 500 }}>Sürücü olarak..</Typography>
-          <Typography sx={{ fontWeight: 500 }}>Alıcı olarak..</Typography>
+          <Typography sx={{ fontWeight: 500 }}>
+            Gönderici olarak Kayıt Ol sayfası üzerinden sisteme kayıt
+            olabilirsiniz. Kayıt sonrasında sisteme giriş yaparak kargo
+            gönderilerinize ait bilgileri girip kargo kaydı oluşturduğunuzda
+            sistem sürücü ve alıcı için şifre oluşturur, şifreleri sürücü ve
+            alıcılar ile paylaşmanız gerekmektedir. Sürücü, plaka no ve sürücü
+            şifresi ile sisteme giriş yapar. Alıcı, plaka no ve alıcı şifresi
+            ile sisteme giriş yapar.
+          </Typography>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "24px",
+          }}
+        >
+          <Typography
+            sx={{ fontWeight: 700 }}
+            onClick={() => navigate("/cerez-politikasi")}
+          >
+            Çerez Politikası
+          </Typography>
+          <Typography
+            sx={{ fontWeight: 700 }}
+            onClick={() => navigate("/kvkk-aydinlatma-metni")}
+          >
+            Aydınlatma Metni
+          </Typography>
         </Grid>
       </Grid>
     </div>

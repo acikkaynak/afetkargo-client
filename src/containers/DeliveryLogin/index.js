@@ -158,7 +158,7 @@ const Login = () => {
           </Grid>
         </CardContent>
       </Card>
-      <KVKKGrid>
+      {/* <KVKKGrid>
         <span>
           <StyledLink
             onClick={(e) => {
@@ -171,7 +171,7 @@ const Login = () => {
           okudum ve kabul ediyorum.
         </span>
         <Button variant="contained">Kabul Et</Button>
-      </KVKKGrid>
+      </KVKKGrid> */}
     </>
   );
 };
