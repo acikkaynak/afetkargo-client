@@ -55,6 +55,9 @@ const Sender = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
+  const [showDeliveryError, setShowDeliveryError] = useState(false);
+  const [showSenderError, setShowSenderError] = useState(false);
+
   const provider = new OpenStreetMapProvider();
 
   const mapRef = useRef(null);
@@ -139,9 +142,18 @@ const Sender = () => {
   };
 
   const handleRegisterTruck = async () => {
+    if (senderData.plateNo.length < 1 ||
+      senderData.driverFullname.length < 1 ||
+      senderData.driverPhone.length < 1 ||
+      senderData.inventory.length < 1
+    ) {
+      setShowSenderError(true);
+      return;
+    }
+    setShowSenderError(false);
     const tempAllData = Object.assign({}, senderData);
     tempAllData.receiverList = [];
-    tempAllData.receiverList.push(deliveryData);
+    tempAllData.receiverList = deliveryRows;
     setSenderData(tempAllData);
 
     const response = await createCargoRequest(tempAllData);
@@ -153,12 +165,17 @@ const Sender = () => {
       setShowMessage(true);
       setMessage(
         response?.message ??
-          "Kayıt oluşturulurken hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin."
+        "Kayıt oluşturulurken hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin."
       );
     }
   };
 
   const handleAddDelivery = () => {
+    if (deliveryData.receiverFullname.length < 1 || deliveryData.receiverPhone.length < 1) {
+      setShowDeliveryError(true);
+      return;
+    }
+    setShowDeliveryError(false)
     let row = {
       cargoId: deliveryData.cargoId,
       receiverFullname: deliveryData.receiverFullname,
@@ -496,7 +513,11 @@ const Sender = () => {
               />
             </MapContainer>
           </Grid>
-
+          {showDeliveryError &&
+            <Grid>
+              <Alert severity="error">Alıcı Adı, Alıcı Telefon Numarası girdiğinizden emin olun.</Alert>
+            </Grid>
+          }
           <Grid
             item
             xs={12}
@@ -610,6 +631,11 @@ const Sender = () => {
               </Alert>
             </StyledGrid>
           ) : null}
+          {showSenderError &&
+            <Grid>
+              <Alert severity="error">Gönderen Plaka No, Sürücü Adı, Sürücü Telefon Numarası, Envanter girdiğinizden emin olun.</Alert>
+            </Grid>
+          }
           <Grid container>
             <Grid
               item
@@ -631,9 +657,7 @@ const Sender = () => {
             >
               <Button
                 variant="contained"
-                onClick={() => {
-                  handleRegisterTruck();
-                }}
+                onClick={handleRegisterTruck}
               >
                 Kayıt Oluştur
               </Button>
