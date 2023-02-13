@@ -16,42 +16,44 @@ const PrivacyPolicy = () => {
           (&ldquo;Politika&rdquo;), kişisel verilerin ... APP tarafından
           toplanması, kullanılması, paylaşması ve saklanması
           s&uuml;re&ccedil;leri ve prensipleri hakkında sizleri bilgilendirmek
-          amacıyla hazırlanmıştır. Amacımız depremden etkilenenlere gerekli
-          yardım ve desteği sağlamaktır ve yardım sağlamak amacıyla bilgileri
-          devlet kurumları ve sivil toplum kuruluşları (STK'lar) ile
-          paylaşabiliriz.
+          amacıyla hazırlanmıştır. Amacımız, doğal afetten etkilenen
+          afetzedelere gerekli yardım ve desteği sağlamaktır. Yardım sağlamak
+          amacıyla bilgileri devlet kurumları ve sivil toplum kuruluşları
+          (STK'lar) ile paylaşabiliriz.
         </p>
         <p>
-          Kişisel bilgilerinizin gizliliğini korumayı ve 6698 sayılı Kişisel
-          Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo; veya
+          Afetkargo, kişisel bilgilerinizin gizliliğini korumayı ve 6698 sayılı
+          Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo; veya
           &ldquo;Kanun&rdquo;) ve ilgili mevzuat kapsamında ilgili t&uuml;m
-          yasalara uymayı taahh&uuml;t ediyoruz. Bu politika, kişisel
+          yasalara uymayı taahh&uuml;t etmektedir. Bu politika, kişisel
           bilgilerinizin toplanması, kullanılması, saklanması ve paylaşılmasına
           ilişkin haklarınızı ve y&uuml;k&uuml;ml&uuml;l&uuml;klerimizi ortaya
-          koymaktadır. İşbu metin ile, veri sorumlusu sıfatıyla KVKK&rsquo;nın
-          10. maddesinde belirtilen aydınlatma
+          koymaktadır. İşbu metin ile, afetkargo, veri sorumlusu sıfatı ile
+          KVKK&rsquo;nın 10. maddesinde belirtilen aydınlatma
           y&uuml;k&uuml;ml&uuml;l&uuml;ğ&uuml;n&uuml; yerine getirmekte ve
-          b&ouml;ylelikle, 'afetkargo.com' aracılığıyla erişilen
-          (&ldquo;İnternet Sitesi&rdquo;) &uuml;zerinden
-          ger&ccedil;ekleştirdiğiniz faaliyetler &ouml;zelinde işlemiş olduğumuz
-          kişisel verilerinizin işlenme s&uuml;re&ccedil;leri hakkında siz
-          ziyaret&ccedil;ilerimizi detaylıca bilgilendirmeyi hedeflemekteyiz.
+          b&ouml;ylelikle,{" "}
+          <a href="http://www.afetkargo.com">www.afetkargo.com</a>{" "}
+          &uuml;zerinden ger&ccedil;ekleştirdiğiniz faaliyetler &ouml;zelinde
+          işlenen kişisel veri işlenme s&uuml;re&ccedil;leri hakkında
+          kullanıcıları detaylıca bilgilendirmeyi hedeflemektedir.
         </p>
         <p>
-          <strong>Hangi Verileri Topluyoruz?</strong>
+          <strong>Afetkargo Hangi Verileri Toplamaktadır?</strong>
         </p>
         <p>
-          Uygulamamıza g&ouml;nderici olarak kayıt oluşturan kullanıcılardan
-          taşınan envantere dair verileri, taşıtın plaka numarası, taşıyıcı ve
-          alıcı adı, soyadı, iletişim bilgisi, konum bilgisi verilerini
-          topluyoruz. Bu veriler yardım ve kaynakların ihtiya&ccedil;
-          sahiplerine dağıtılmasına yardımcı olmak, iş faaliyetlerinin
-          y&uuml;r&uuml;t&uuml;lmesi, lojistik faaliyetlerin
+          Afetkargo uygulamasına g&ouml;nderici olarak kayıt oluşturan
+          kullanıcılardan; taşınan envantere dair verileri, taşıtın ve dorsenin
+          plakası, taşıyıcı ve alıcı adı, soyadı, iletişim bilgisi, konum
+          bilgisi verilerini toplamaktadır. Bu veriler yardım ve kaynakların
+          ihtiya&ccedil; sahiplerine dağıtılmasına yardımcı olmak, iş
+          faaliyetlerinin y&uuml;r&uuml;t&uuml;lmesi, lojistik faaliyetlerin
           y&uuml;r&uuml;t&uuml;lmesi, işlem g&uuml;venliğinin sağlanması
           ama&ccedil;larıyla toplanmaktadır.
         </p>
         <p>
-          <strong>Kişisel Veri Toplamanın Yöntemi ve Hukuki Sebepler</strong>
+          <strong>
+            Kişisel Veri Toplamanın Y&ouml;ntemi ve Hukuki Sebepler
+          </strong>
         </p>
         <p>
           Kişisel verileriniz yardım ve kaynakların ihtiya&ccedil; sahiplerine
@@ -75,67 +77,75 @@ const PrivacyPolicy = () => {
           y&uuml;r&uuml;t&uuml;len &ouml;nleyici, koruyucu ve istihbarı
           faaliyetler kapsamında işlenmesi, &bull; KVKK Madde 28/2-(b) uyarınca,
           ilgili kişinin kendisi tarafından alenileştirilmiş kişisel verilerin
-          işlenmesi, hukuki sebeplerine dayanılarak islenecektir.
+          işlenmesi, hukuki sebeplerine dayanılarak işlenecektir.
         </p>
         <p>
           <strong>Verilerin Aktarımı</strong>
         </p>
         <p>
-          Uygulamamız aracılığıyla toplanan kişisel verileri, deprem
+          Uygulamamız aracılığıyla toplanan kişisel verileri, doğal afet
           mağdurlarına yardım ve destek sağlamak amacıyla ilgili devlet
-          kurumları ve STK'larla paylaşabiliriz. Kişisel verilerin t&uuml;m
+          kurumları ve STK'larla paylaşılabilir. Kişisel verilerin t&uuml;m
           alıcıları, bilgileri bu gizlilik bildirimine ve KVKK dahil olmak
           &uuml;zere ilgili veri koruma yasalarına uygun olarak kullanmakla
-          y&uuml;k&uuml;ml&uuml;d&uuml;r. Deprem mağdurlarına yardım ve destek
-          sağlama amacına ulaşmak i&ccedil;in yalnızca gerekli olan minimum
-          miktarda kişisel bilgiyi paylaşacağız. Bazı durumlarda, gizliliği
-          korumak i&ccedil;in tarafımızca topladığımız kişisel veriler
+          y&uuml;k&uuml;ml&uuml;d&uuml;r. Doğal afet mağdurlarına yardım ve
+          destek sağlama amacına ulaşmak i&ccedil;in yalnızca gerekli olan
+          minimum miktarda kişisel bilgi paylaşılacaktır. Bazı durumlarda,
+          gizliliği korumak i&ccedil;in tarafımızca topladığımız kişisel veriler
           anonimleştirilebilir veya toplanabilir.
         </p>
         <p>
           <strong>Veri G&uuml;venliği</strong>
         </p>
         <p>
-          Kişisel verileri yetkisiz erişime, kullanıma veya ifşaya karşı korumak
-          i&ccedil;in gerekli idari ve teknik &ouml;nlemleri almaktayız. Bu
-          &ouml;nlemler, şifreleme ve g&uuml;venli depolama gibi uygun teknik ve
-          organizasyonel &ouml;nlemlerin uygulanmasını i&ccedil;erir. Ancak,
-          internet &uuml;zerinden hi&ccedil;bir veri aktarımının tamamen
-          g&uuml;venli olduğu garanti edilemez. Kişisel verilerin
-          g&uuml;venliğini garanti edememekle beraber, korumak i&ccedil;in
-          elimizden geleni yapacağız.
+          Afetkargo, işlenen kişisel veriler hakkında, g&uuml;venliği sağlamak
+          maksadı ile ilgili mevzuat gereğince &ouml;ng&ouml;r&uuml;len ve KVK
+          Kurulu tarafından bildirilecek olan idari ve teknik &ouml;nlemleri
+          alarak kişisel verilerin hukuka uygun işlenmesini ve korunmasını temin
+          etmektedir. Bu kapsamda Afetkargo, kişisel verilerin hukuk kapsamında
+          işlenmesi, g&uuml;venli ortamlarda depolanmasını, yetkisiz erişim
+          riskleri ile diğer her t&uuml;rl&uuml; hukuka aykırı erişimlerin
+          engellenmesini, arızi olarak ger&ccedil;ekleşen veri kayıplarının
+          &ouml;nlenmesi, verilere kasten zarar verilmesi ile silinmesinin
+          &ouml;n&uuml;ne ge&ccedil;ilmesi i&ccedil;in teknolojik imk&acirc;nlar
+          ve uygulama maliyetinin de ele alındığı makul derecedeki teknik ve
+          idari &ouml;nlemleri almaktadır. Ancak, internet &uuml;zerinden
+          hi&ccedil;bir veri aktarımının tamamen g&uuml;venli olduğu garanti
+          edilemeyecektir. Afetkargo, İlgili Kanun&rsquo;un 12. maddesine uygun
+          olarak işlenen kişisel verilerin kanuni olmayan yollarla başkaları
+          tarafından elde edilmesi durumunda, en kısa s&uuml;rede ilgili kişisel
+          veri sahibine ve KVK Kurulu&rsquo;na bildirilmesini sağlayan sistemi
+          y&uuml;r&uuml;tmektedir.
         </p>
         <p>
           <strong>İlgili Kişi Hakları</strong>
         </p>
         <p>
-          KVKK&rsquo;nin ilgili kişinin haklarını d&uuml;zenleyen 11. maddesi
+          KVKK&rsquo;nın ilgili kişinin haklarını d&uuml;zenleyen 11. maddesi
           kapsamındaki taleplerinizi, &ldquo;Veri Sorumlusuna Başvuru Usul ve
-          Esasları Hakkında Tebliğ&rsquo;e göre Kisisel&nbsp;bilgi@afetkargo.com
-          adresine yazılı olarak iletebilirsiniz.
+          Esasları Hakkında Tebliğ&rsquo;e göre bilgi@afetkargo.com adresine
+          yazılı olarak iletebilirsiniz.
         </p>
         <p>
           <strong>Değişiklikler</strong>
         </p>
         <p>
-          Uygulamalarımızdaki değişiklikleri yansıtmak i&ccedil;in bu gizlilik
-          bildirimini zaman zaman g&uuml;ncelleyebiliriz. G&uuml;ncellenmiş
-          bildirimi uygulamamızda yayınlayarak ve bu bildirimin sonundaki "Son
+          Afetkargo uygulamasındaki değişiklikleri yansıtmak i&ccedil;in bu
+          gizlilik bildirimini g&uuml;ncelleyebilir. G&uuml;ncellenmiş bildirimi
+          uygulamasında yayınlayarak ve bu bildirimin sonundaki "Son
           G&uuml;ncelleme Tarihi "ni g&uuml;ncelleyerek her t&uuml;rl&uuml;
-          değişikliği size bildireceğiz.
+          değişikliği kullanıcılara bildirecektir.
         </p>
         <p>
           <strong>İletişim Bilgileri</strong>
         </p>
         <p>
-          Bu politika veya kişisel verilerinizi nasıl işlediğimiz hakkında
-          herhangi bir sorunuz veya endişeniz varsa, l&uuml;tfen
-          'bilgi@afetkargo.com' adresinden bizimle iletişime ge&ccedil;in.
-          Ekibimiz size yardımcı olmaktan ve sorularınızı yanıtlamaktan mutluluk
-          duyacaktır.
+          Bu politika veya kişisel verilerin nasıl işlediği hakkındaki soru ve
+          sorunlarınız i&ccedil;in, 'bilgi@afetkargo.com' adresinden tarafımız
+          ile iletişime ge&ccedil;ebilirsiniz. Ekibimiz sizlere yardımcı
+          olmaktan ve sorularınızı yanıtlamaktan mutluluk duyacaktır.
         </p>
         <p>Son G&uuml;ncelleme Tarihi: 13 Şubat 2023</p>
-        <p>&nbsp;</p>
       </Grid>
       <Grid>
         <Button
