@@ -6,7 +6,11 @@ export default function Header(props) {
     return (
       <Toolbar
         variant="dense"
-        style={{ display: "flex", justifyContent: "center" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "#000",
+        }}
       >
         {props.text}
       </Toolbar>

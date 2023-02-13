@@ -1,3 +1,5 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LockIcon from "@mui/icons-material/Lock";
 import {
   Alert,
   Avatar,
@@ -6,16 +8,13 @@ import {
   CardContent,
   Grid,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import styled from "styled-components";
-import { pink } from "@mui/material/colors";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import receiverLoginRequest from "../../api/receiverLoginRequest";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import receiverLoginRequest from "../../api/receiverLoginRequest";
+import Header from "../../components/Header";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -88,7 +87,7 @@ const Login = () => {
             </StyledGrid>
 
             <StyledGrid item xs={12}>
-              <Avatar sx={{ bgcolor: pink[500] }}>
+              <Avatar sx={{ bgcolor: "#000" }}>
                 <LockIcon htmlColor="white" />
               </Avatar>
             </StyledGrid>

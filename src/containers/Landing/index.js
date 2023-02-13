@@ -1,3 +1,4 @@
+import Footer from '../../components/Footer';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import {
   Avatar,
@@ -10,6 +11,7 @@ import { pink } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../components/Header";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -46,12 +48,12 @@ const Login = () => {
             }}
           >
             <StyledGrid item xs={12} style={{ marginBottom: "20px" }}>
-              <Typography variant="h4">afetkargo</Typography>
+              <Typography variant="h4">afet kargo</Typography>
             </StyledGrid>
 
             <StyledGrid item xs={12}>
-              <Avatar sx={{ bgcolor: pink[500] }}>
-                <ContactSupportIcon htmlColor="white" />
+              <Avatar sx={{ bgcolor: '#000' }}>
+                <LocalShippingIcon htmlColor="white" />
               </Avatar>
             </StyledGrid>
 
@@ -70,6 +72,7 @@ const Login = () => {
           </Grid>
         </CardContent>
       </Card>
+      <Footer />
     </>
   );
 };
