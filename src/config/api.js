@@ -8,6 +8,8 @@ const API = create({
 API.addRequestTransform((request) => {
   request.headers["X-API-KEY"] = process.env.REACT_APP_API_KEY;
   request.headers["Content-Type"] = "application/json;charset=UTF-8";
+  request.headers["Access-Control-Allow-Origin"] = "*";
+  request.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
 });
 
 API.addMonitor((response) => {

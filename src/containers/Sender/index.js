@@ -5,24 +5,25 @@ import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Alert,
-  Autocomplete, Button,
+  Autocomplete,
+  Button,
   Divider,
   Grid,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
 
 import createCargoRequest from "../../api/createCargoRequest";
 
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -32,14 +33,16 @@ const StyledGrid = styled(Grid)`
 `;
 
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
 const Sender = () => {
   const navigate = useNavigate();
-  const cargoId = localStorage.getItem("afetkargo_surucu") ? JSON.parse(localStorage.getItem("afetkargo_surucu")).id : ""
+  const cargoId = localStorage.getItem("afetkargo_surucu")
+    ? JSON.parse(localStorage.getItem("afetkargo_surucu")).id
+    : "";
 
   const [showResult, setShowResult] = useState(false);
   const [resultData, setResultData] = useState([]);
@@ -78,45 +81,50 @@ const Sender = () => {
     receiverPhone: "",
     destinationAddress: "",
     destinationLat: 37.5553633,
-    destinationLong: 36.8415523
+    destinationLong: 36.8415523,
   });
 
   const [defaultCenter, setDefaultCenter] = useState([38.9637, 35.2433]);
 
-  const eventHandlers = useMemo(() => ({
-    dragend() {
-      const marker = markerRef.current
-      if (marker != null) {
-        setDefaultCenter([marker.getLatLng().lat, marker.getLatLng().lng])
-        mapRef.current.flyTo(marker.getLatLng(), 16);
-      }
-    },
-  }), [])
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          setDefaultCenter([marker.getLatLng().lat, marker.getLatLng().lng]);
+          mapRef.current.flyTo(marker.getLatLng(), 16);
+        }
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     getSearchList();
-  }, [searchInput])
+  }, [searchInput]);
 
   const getSearchList = async () => {
-    const results = await provider.search({ query: searchInput });
-    const converted = results.map((item, index) => ({
-      id: index,
-      label: item.label,
-      lat: item.y,
-      long: item.x
-    }));
-    setSearchResults(converted);
-  }
+    if (searchInput?.length > 2) {
+      const results = await provider.search({ query: searchInput });
+      const converted = results.map((item, index) => ({
+        id: index,
+        label: item.label,
+        lat: item.y,
+        long: item.x,
+      }));
+      setSearchResults(converted);
+    }
+  };
 
   const handleAdressSelect = (selectedAdress) => {
     setSearchInput(selectedAdress.label);
     setDefaultCenter([selectedAdress.lat, selectedAdress.long]);
     mapRef.current.flyTo([selectedAdress.lat, selectedAdress.long], 16);
-  }
+  };
 
   const searchInputChange = (inputValue) => {
     setSearchInput(inputValue);
-  }
+  };
 
   const fieldOnChange = (value, field) => {
     let tempData = Object.assign({}, senderData);
@@ -136,16 +144,19 @@ const Sender = () => {
     tempAllData.receiverList.push(deliveryData);
     setSenderData(tempAllData);
 
-    const response = await createCargoRequest(tempAllData)
+    const response = await createCargoRequest(tempAllData);
     console.log("response", response);
     if (response.code === 200) {
-      setShowResult(true)
+      setShowResult(true);
       setResultData(response.data);
     } else {
       setShowMessage(true);
-      setMessage(response?.message ?? "Kayıt oluşturulurken hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin.");
+      setMessage(
+        response?.message ??
+          "Kayıt oluşturulurken hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyin."
+      );
     }
-  }
+  };
 
   const handleAddDelivery = () => {
     let row = {
@@ -154,11 +165,11 @@ const Sender = () => {
       receiverPhone: deliveryData.receiverPhone,
       destinationAddress: deliveryData.destinationAddress,
       destinationLat: defaultCenter[0],
-      destinationLong: defaultCenter[1]
+      destinationLong: defaultCenter[1],
     };
 
     setDeliveryRows((deliveryRows) => [...deliveryRows, row]);
-    clearReceiverData()
+    clearReceiverData();
   };
 
   const copyInfos = () => {
@@ -169,7 +180,7 @@ const Sender = () => {
       Teslimat Şifresi: ${resultData.receiverPassword}
     `;
     navigator.clipboard.writeText(copiedData);
-  }
+  };
 
   const clearReceiverData = () => {
     setDeliveryData({
@@ -178,17 +189,17 @@ const Sender = () => {
       receiverPhone: "",
       destinationAddress: "",
       destinationLat: 37.5553633,
-      destinationLong: 36.8415523
-    })
+      destinationLong: 36.8415523,
+    });
     // * Advice
     // setDefaultCenter([38.9637, 35.2433]);
     // mapRef.current.flyTo([38.9637, 35.2433], 5)
     setSearchInput("");
-  }
+  };
 
   return (
     <>
-      {!showResult ?
+      {!showResult ? (
         <Grid
           container
           style={{
@@ -211,7 +222,9 @@ const Sender = () => {
               variant="outlined"
               fullWidth
               value={senderData.plateNo}
-              onChange={(e) => fieldOnChange(e.target.value.toUpperCase(), "plateNo")}
+              onChange={(e) =>
+                fieldOnChange(e.target.value.toUpperCase(), "plateNo")
+              }
             />
           </Grid>
 
@@ -437,23 +450,27 @@ const Sender = () => {
           <Autocomplete
             disablePortal
             id="location-search"
+            noOptionsText={'Aradığınız adres bulunamadı. Haritadan hedef adresi seçebilirsiniz.'}
             options={searchResults}
             value={searchInput}
             onChange={(e, value) => handleAdressSelect(value)}
-            renderInput={(params) =>
+            renderInput={(params) => (
               <TextField
                 {...params}
                 label="Adres Ara"
                 onChange={(e) => searchInputChange(e.target.value)}
-              />}
+              />
+            )}
           />
 
-          {defaultCenter?.length &&
+          {defaultCenter?.length && (
             <Grid>
               <span>Güncel Koordinatlar: </span>
-              <span>{defaultCenter[0]}, {defaultCenter[1]}</span>
+              <span>
+                {defaultCenter[0]}, {defaultCenter[1]}
+              </span>
             </Grid>
-          }
+          )}
 
           <Grid item xs={12}>
             <MapContainer
@@ -463,7 +480,7 @@ const Sender = () => {
               scrollWheelZoom={false}
               style={{
                 width: "100%",
-                height: "400px"
+                height: "400px",
               }}
             >
               <TileLayer
@@ -530,14 +547,14 @@ const Sender = () => {
               </Table>
             </TableContainer> */}
             {deliveryRows.map((row, index) => (
-              <List key={index} sx={{ width: '100%' }}>
+              <List key={index} sx={{ width: "100%" }}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
                     primary="Alıcı Adı Soyadı"
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: "inline" }}
                           component="span"
                           variant="body2"
                           color="text.primary"
@@ -554,7 +571,7 @@ const Sender = () => {
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: "inline" }}
                           component="span"
                           variant="body2"
                           color="text.primary"
@@ -571,7 +588,7 @@ const Sender = () => {
                     secondary={
                       <React.Fragment>
                         <Typography
-                          sx={{ display: 'inline' }}
+                          sx={{ display: "inline" }}
                           component="span"
                           variant="body2"
                           color="text.primary"
@@ -599,7 +616,11 @@ const Sender = () => {
               xs={6}
               style={{ display: "flex", justifyContent: "flex-start" }}
             >
-              <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIcon />}
+                onClick={() => navigate(-1)}
+              >
                 Geri Dön
               </Button>
             </Grid>
@@ -608,13 +629,18 @@ const Sender = () => {
               xs={6}
               style={{ display: "flex", justifyContent: "flex-end" }}
             >
-              <Button variant="contained" onClick={() => { handleRegisterTruck() }}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleRegisterTruck();
+                }}
+              >
                 Kayıt Oluştur
               </Button>
             </Grid>
           </Grid>
         </Grid>
-        :
+      ) : (
         <Grid display={"flex"} flexDirection={"column"} gap={"20px"}>
           <Grid display={"flex"} flexDirection={"column"} gap={"15px"}>
             <span>Kaydınız Oluşturulmuştur.</span>
@@ -628,7 +654,11 @@ const Sender = () => {
             xs={6}
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+            >
               Geri Dön
             </Button>
             <Button variant="contained" onClick={() => copyInfos()}>
@@ -636,10 +666,8 @@ const Sender = () => {
             </Button>
           </Grid>
         </Grid>
-      }
+      )}
     </>
-
-
   );
 };
 
