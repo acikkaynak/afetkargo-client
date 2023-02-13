@@ -150,7 +150,7 @@ const Login = () => {
         </CardContent>
       </Card>
       <KVKKGrid>
-        <span><a href="/receiver-kvkk" target={"_blank"}>KVKK Aydınlatma metnini</a> okudum ve kabul ediyorum.</span>
+        <span><a href="/receiver-kvkk">KVKK Aydınlatma metnini</a> okudum ve kabul ediyorum.</span>
         <Button variant="contained">Kabul Et</Button>
       </KVKKGrid>
     </>
