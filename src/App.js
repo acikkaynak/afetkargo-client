@@ -14,6 +14,10 @@ import Landing from "./containers/Landing";
 import DeliveryLogin from "./containers/DeliveryLogin";
 import DriverKvkk from "./containers/DriverKvkk";
 import ReceiverKvkk from "./containers/ReceiverKvkk";
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = process.env.REACT_APP_GA_CODE
+
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -21,6 +25,9 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+
+  ReactGA.initialize(TRACKING_ID);
+
   return (
     <Wrapper>
       <Routes>
