@@ -100,6 +100,14 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/gizlilik-politikasi"
+          element={
+            <Layout>
+              <KvkkPolicy />
+            </Layout>
+          }
+        />
       </Routes>
     </Wrapper>
   );

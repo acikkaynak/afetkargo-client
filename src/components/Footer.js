@@ -47,23 +47,6 @@ const Footer = () => {
           </Typography>
         </Grid>
 
-        <Grid item xs={12}>
-          <Typography sx={{ fontWeight: 700 }}>
-            Afetkargo’ya nasıl kayıt olabilirim?
-          </Typography>
-        </Grid>
-        <Grid item xs={12} style={{ display: "flex", flexDirection: "column" }}>
-          <Typography sx={{ fontWeight: 500 }}>
-            Gönderici olarak Kayıt Ol sayfası üzerinden sisteme kayıt
-            olabilirsiniz. Kayıt sonrasında sisteme giriş yaparak kargo
-            gönderilerinize ait bilgileri girip kargo kaydı oluşturduğunuzda
-            sistem sürücü ve alıcı için şifre oluşturur, şifreleri sürücü ve
-            alıcılar ile paylaşmanız gerekmektedir. Sürücü, plaka no ve sürücü
-            şifresi ile sisteme giriş yapar. Alıcı, plaka no ve alıcı şifresi
-            ile sisteme giriş yapar.
-          </Typography>
-        </Grid>
-
         <Grid
           item
           xs={12}
@@ -80,6 +63,12 @@ const Footer = () => {
             onClick={() => navigate("/cerez-politikasi")}
           >
             Çerez Politikası
+          </Typography>
+          <Typography
+            sx={{ fontWeight: 700 }}
+            onClick={() => navigate("/gizlilik-politikasi")}
+          >
+            Gizlilik Politikası
           </Typography>
           <Typography
             sx={{ fontWeight: 700 }}
