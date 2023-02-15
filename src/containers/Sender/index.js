@@ -494,7 +494,6 @@ const Sender = () => {
               ref={mapRef}
               center={defaultCenter}
               zoom={5}
-              scrollWheelZoom={false}
               style={{
                 width: "100%",
                 height: "400px",
