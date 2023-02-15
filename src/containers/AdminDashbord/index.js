@@ -326,7 +326,6 @@ const AdminDashboard = () => {
                     >
                       {row?.lon != null && row?.lat != null ? (
                         <>
-                          {" "}
                           <Tooltip title="Araç konumunu haritada gösterir.">
                             <Button
                               variant="outlined"
@@ -379,7 +378,17 @@ const AdminDashboard = () => {
                           </Tooltip>
                         </>
                       ) : (
-                        "Konum bilgisi yok"
+                        <Tooltip title="Araç konumunu haritada gösterir.">
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            style={{ textTransform: "none" }}
+                            disabled={true}
+                          >
+                            <LocationOnIcon />
+                            Konu Bilgisi Yok
+                          </Button>
+                        </Tooltip>
                       )}
                     </TableCell>
                   </TableRow>
