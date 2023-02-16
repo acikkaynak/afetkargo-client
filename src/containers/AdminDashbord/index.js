@@ -6,9 +6,11 @@ import GoogleIcon from "@mui/icons-material/Google";
 import TransferWithinAStationIcon from "@mui/icons-material/TransferWithinAStation";
 import AppleIcon from "@mui/icons-material/Apple";
 import AndroidIcon from "@mui/icons-material/Android";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { useRef } from "react";
 import {
+  Alert,
   Button,
   Chip,
   Divider,
@@ -22,7 +24,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
   Tooltip,
@@ -30,6 +34,11 @@ import {
 } from "@mui/material";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useMemo } from "react";
+import { useEffect } from "react";
+import TablePaginationActions from "../../components/TablePagination";
+import getCargoListWithPagination from "../../api/getCargoListWithPagination";
+import getCargoLocationById from "../../api/getCargoLocationById";
+import { useNavigate } from "react-router-dom";
 
 function createData(
   plateNo,
@@ -68,18 +77,71 @@ const rows = [
 ];
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [defaultCenter, setDefaultCenter] = useState([38.9637, 35.2433]);
-
-  const [searchText, setSearchText] = useState("");
+  const [cargoList, setCargoList] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [page, setPage] = useState(0);
+  const [totalRow, setTotalRow] = useState(0);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const tableRef = useRef(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [selectedCargo, setSelectedCargo] = useState({});
+  const [selectedRow, setSelectedRow] = useState({});
 
-  // const eventHandlers = useMapEvents({
-  //   click() {
-  //     const marker = markerRef.current;
-  //     mapRef.flyTo(marker.getLatLng(), 16);
-  //   },
-  // });
+  useEffect(() => {
+    loadCargoList();
+  }, [searchKey, page, rowsPerPage]);
+
+  const loadCargoList = async () => {
+    let pagination = {
+      page: page + 1,
+      limit: rowsPerPage,
+    };
+
+    let filter = {
+      searchKey: searchKey,
+    };
+
+    const result = await getCargoListWithPagination(pagination, filter);
+
+    if (result?.code == 200) {
+      setCargoList(result?.data?.items);
+      setTotalRow(result?.data?.meta?.totalItems);
+      setShowMessage(false);
+    } else {
+      setShowMessage(true);
+      setMessage(result?.message ?? "Beklenmedik bir hata oluştu.");
+    }
+  };
+
+  const locationByCargoId = async (row) => {
+    const result = await getCargoLocationById(row.id);
+
+    if (result?.code == 200) {
+      handleLocateMap(result?.data);
+      setSelectedCargo(result?.data);
+      setSelectedRow(row);
+      setShowMessage(false);
+    } else {
+      setShowMessage(true);
+      setMessage(result?.message ?? "Beklenmedik bir hata oluştu.");
+      setSelectedRow({});
+      setSelectedCargo({});
+    }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = async (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const eventHandlers = useMemo(
     () => ({
@@ -97,74 +159,27 @@ const AdminDashboard = () => {
   const handleLocateMap = (cargo) => {
     console.log(cargo);
 
-    setDefaultCenter([cargo.lon, cargo.lat]);
-    mapRef.current.flyTo([cargo.lon, cargo.lat], 16);
+    setDefaultCenter([cargo.lat, cargo.long]);
+    mapRef.current.flyTo([cargo.lat, cargo.long], 16);
   };
 
-  const handleDriverStatus = (status) => {
+  const handleStatus = (status) => {
     switch (status) {
-      case 0:
+      case 1:
         return (
           <Chip
-            label="Kargo Yola Çıkmadı"
+            label="Beklemede"
             color="warning"
             size="small"
             variant="outlined"
           />
         );
 
-      case 1:
-        return (
-          <Chip
-            label="Kargo Yolda"
-            color="primary"
-            size="small"
-            variant="outlined"
-          />
-        );
-
       case 2:
         return (
           <Chip
-            label="Kargo Teslim Edildi"
-            color="success"
-            size="small"
-            variant="outlined"
-          />
-        );
-
-      default:
-        return <></>;
-    }
-  };
-
-  const handleReceiverStatus = (status) => {
-    switch (status) {
-      case 0:
-        return (
-          <Chip
-            label="Alıcı Teslim Bekliyor"
+            label="Yola Çıktı"
             color="primary"
-            size="small"
-            variant="outlined"
-          />
-        );
-
-      case 1:
-        return (
-          <Chip
-            label="Alıcı Teslim Aldı, Envanter tam."
-            color="success"
-            size="small"
-            variant="outlined"
-          />
-        );
-
-      case 2:
-        return (
-          <Chip
-            label="Alıcı Teslim Aldı, Envanter eksik."
-            color="error"
             size="small"
             variant="outlined"
           />
@@ -173,7 +188,37 @@ const AdminDashboard = () => {
       case 3:
         return (
           <Chip
-            label="Alıcı Teslim Alamadı."
+            label="Sürücü Tarafından Teslim Edildi"
+            color="success"
+            size="small"
+            variant="outlined"
+          />
+        );
+
+      case 4:
+        return (
+          <Chip
+            label="Teslim Alındı"
+            color="success"
+            size="small"
+            variant="outlined"
+          />
+        );
+
+      case 5:
+        return (
+          <Chip
+            label="Eksik Teslim Alındı"
+            color="warning"
+            size="small"
+            variant="outlined"
+          />
+        );
+
+      case 5:
+        return (
+          <Chip
+            label="Teslim Edilmedi"
             color="warning"
             size="small"
             variant="outlined"
@@ -206,7 +251,7 @@ const AdminDashboard = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4">afetkargo | Admin Dashboard</Typography>
+          <Typography variant="h4">afetkargo | Yönetici Paneli</Typography>
         </Grid>
         <Grid item xs={12}>
           <MapContainer
@@ -222,30 +267,33 @@ const AdminDashboard = () => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {rows
-              .filter((q) => q.lat != null && q.lon != null)
-              .map((vehicleCoordinate, index) => (
-                <Marker
-                  key={index}
-                  position={[vehicleCoordinate?.lon, vehicleCoordinate?.lat]}
-                  // ref={markerRef}
-                  // eventHandlers={eventHandlers}
-                >
-                  <Popup>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span>{`Plaka No: ${vehicleCoordinate?.plateNo}`}</span>
-                      <span>{`Şoför: ${vehicleCoordinate?.deliveryFullname}`}</span>
-                      <span>{`Telefon: ${vehicleCoordinate?.deliveryPhone}`}</span>
-                    </div>
-                  </Popup>
-                </Marker>
-              ))}
+
+            {selectedCargo?.long?.length > 0 &&
+            selectedCargo?.lat?.length > 0 ? (
+              <Marker position={[+selectedCargo?.lat, +selectedCargo?.long]}>
+                <Popup>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span>
+                      <strong>{`Plaka No: ${selectedRow?.plateNo}`}</strong>
+                    </span>
+                    <span>{`Çıkış Adresi: ${selectedRow?.originAddress}`}</span>
+                    <span>{`Şoför: ${selectedRow?.driverFullname}`}</span>
+                    <span>{`Telefon: ${selectedRow?.driverPhone}`}</span>
+                    <span>{`Envanter: ${selectedRow?.inventory}`}</span>
+                    <span>{`Koli Sayısı: ${
+                      selectedRow?.partialCount ?? 0
+                    }`}</span>
+                  </div>
+                </Popup>
+              </Marker>
+            ) : null}
+            {/* ))} */}
           </MapContainer>
         </Grid>
         <Divider />
@@ -253,19 +301,47 @@ const AdminDashboard = () => {
         <Grid
           item
           xs={12}
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
-          <Grid item xs={6}>
+          <Grid
+            item
+            xs={6}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: "10px",
+            }}
+          >
+            {showMessage ? (
+              <Grid item xs={12} display="flex" flexDirection="column">
+                <Alert severity="error" sx={{ width: "95%" }}>
+                  {message}
+                </Alert>
+                {message == "Unauthorized" ? (
+                  <Button
+                    variant="outlined"
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => navigate("/")}
+                  >
+                    Ana Sayfaya Dön
+                  </Button>
+                ) : null}
+              </Grid>
+            ) : null}
             <OutlinedInput
-              value={searchText}
-              onChange={(e) => setSearchText(e?.target?.value)}
-              onKeyDown={(e) => (e?.key == "Escape" ? setSearchText("") : "")}
+              value={searchKey}
+              onChange={(e) => setSearchKey(e?.target?.value)}
+              onKeyDown={(e) => (e?.key == "Escape" ? setSearchKey("") : "")}
               fullWidth={true}
               placeholder="Plaka veya Telefon yazıp arayın.."
               endAdornment={
-                searchText?.length > 0 ? (
+                searchKey?.length > 0 ? (
                   <InputAdornment position="end">
-                    <IconButton onClick={() => setSearchText("")}>
+                    <IconButton onClick={() => setSearchKey("")}>
                       <CancelIcon />
                     </IconButton>
                   </InputAdornment>
@@ -276,16 +352,16 @@ const AdminDashboard = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <TableContainer component={Paper}>
+          <TableContainer
+            component={Paper}
+            ref={tableRef}
+            style={{ boxShadow: "none" }}
+          >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell style={{ fontWeight: "700" }}>
-                    Şoför Kargo Durumu
-                  </TableCell>
-
-                  <TableCell align="center" style={{ fontWeight: "700" }}>
-                    Alıcı Kargo Durumu
+                    Transfer Durumu
                   </TableCell>
 
                   <TableCell align="center" style={{ fontWeight: "700" }}>
@@ -306,32 +382,41 @@ const AdminDashboard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, index) => (
+                {/* {rows.map((row, index) => ( */}
+                {cargoList.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    style={{
+                      backgroundColor:
+                        row?.id == selectedCargo?.cargoId ? "#b9e3d061" : "",
+                    }}
                   >
                     <TableCell component="th" scope="row">
-                      {handleDriverStatus(row?.driverStatus)}
+                      {handleStatus(row?.status)}
                     </TableCell>
-                    <TableCell align="center">
-                      {handleReceiverStatus(row?.receiverStatus)}
-                    </TableCell>
+
                     <TableCell align="center">{row.plateNo}</TableCell>
-                    <TableCell align="center">{row.deliveryFullname}</TableCell>
-                    <TableCell align="center">{row.deliveryPhone}</TableCell>
+
+                    <TableCell align="center">{row.driverFullname}</TableCell>
+
+                    <TableCell align="center">{row.driverPhone}</TableCell>
+
                     <TableCell
                       align="right"
-                      style={{ display: "flex", gap: "2px" }}
+                      style={{
+                        display: "flex",
+                        gap: "2px",
+                      }}
                     >
-                      {row?.lon != null && row?.lat != null ? (
+                      {row?.originLong != null && row?.originLat != null ? (
                         <>
                           <Tooltip title="Araç konumunu haritada gösterir.">
                             <Button
                               variant="outlined"
                               size="small"
                               style={{ textTransform: "none" }}
-                              onClick={() => handleLocateMap(row)}
+                              onClick={() => locationByCargoId(row)}
                             >
                               <LocationOnIcon />
                               Konum
@@ -341,7 +426,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  `https://www.google.com/maps/@${row?.lon},${row?.lat},22z`,
+                                  `https://www.google.com/maps/@${row?.originLong},${row?.originLat},22z`,
                                   "_blank",
                                   "noreferrer"
                                 );
@@ -354,7 +439,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  ` https://www.google.com/maps?saddr=My+Location&daddr=${row?.lon},${row?.lat}`,
+                                  ` https://www.google.com/maps?saddr=My+Location&daddr=${row?.originLong},${row?.originLat}`,
                                   "_blank",
                                   "noreferrer"
                                 );
@@ -367,7 +452,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  `https://maps.apple.com/place?q=${row?.lon},${row?.lat}&ll=${row?.lon},${row?.lat}&z=18,`,
+                                  `https://maps.apple.com/place?q=${row?.lon},${row?.lat}&ll=${row?.originLong},${row?.originLat}&z=18,`,
                                   "_blank",
                                   "noreferrer"
                                 );
@@ -378,22 +463,45 @@ const AdminDashboard = () => {
                           </Tooltip>
                         </>
                       ) : (
-                        <Tooltip title="Araç konumunu haritada gösterir.">
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            style={{ textTransform: "none" }}
-                            disabled={true}
-                          >
-                            <LocationOnIcon />
-                            Konu Bilgisi Yok
-                          </Button>
-                        </Tooltip>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          style={{ textTransform: "none" }}
+                          disabled={true}
+                        >
+                          <LocationOnIcon />
+                          Konu Bilgisi Yok
+                        </Button>
                       )}
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[7, 10, 25]}
+                    labelRowsPerPage={"Sayfadaki satır sayısı:"}
+                    labelDisplayedRows={({ from, to, count }) =>
+                      `${count} kayıttan ${from}-${to}`
+                    }
+                    colSpan={8}
+                    count={totalRow}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: {
+                        "aria-label": "rows per page",
+                      },
+                      native: true,
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                    style={{ borderBottom: "none" }}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
         </Grid>

@@ -15,6 +15,8 @@ import { pink } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import { useState } from "react";
+import adminLoginRequest from "../../api/adminLoginRequest";
+import jwtDecode from "jwt-decode";
 
 const StyledGrid = styled(Grid)`
   display: flex;
@@ -29,15 +31,25 @@ const Login = () => {
   const [message, setMessage] = useState(false);
 
   const handleSubmit = async (event) => {
-    // TODO: Add endpoint implementation
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
+
     let formData = {
-      username: data.get("username"),
+      email: data.get("email"),
       password: data.get("password"),
     };
-    setShowMessage(true);
-    setMessage("Beklenmedik bir hata oluştu.");
+
+    const result = await adminLoginRequest(formData);
+
+    if (result?.code == 200) {
+      console.log("local storage yazılan =>", JSON.stringify(result?.data));
+      localStorage.setItem("afetkargo_user", JSON.stringify(result?.data));
+      navigate("/admin-dashboard");
+    } else {
+      setShowMessage(true);
+      setMessage(result?.message ?? "Beklenmedik bir hata oluştu.");
+    }
   };
 
   return (
@@ -56,14 +68,14 @@ const Login = () => {
         <CardContent>
           <Grid
             container
+            component="form"
+            onSubmit={handleSubmit}
             style={{
               display: "flex",
               justifyContent: "center",
               alignContent: "center",
               gap: "14px",
             }}
-            component="form"
-            onSubmit={handleSubmit}
           >
             <StyledGrid item xs={12} style={{ marginBottom: "20px" }}>
               <Typography variant="h4">afetkargo</Typography>
@@ -78,8 +90,9 @@ const Login = () => {
             </StyledGrid>
             <StyledGrid item xs={12}>
               <TextField
-                id="username"
-                label="Kullanıcı Adı"
+                id="email"
+                name="email"
+                label="E-posta"
                 variant="outlined"
                 fullWidth
               />
@@ -87,6 +100,8 @@ const Login = () => {
             <StyledGrid item xs={12}>
               <TextField
                 id="password"
+                name="password"
+                type="password"
                 label="Şifre"
                 variant="outlined"
                 fullWidth
