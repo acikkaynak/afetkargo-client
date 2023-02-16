@@ -426,7 +426,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  `https://www.google.com/maps/@${row?.originLong},${row?.originLat},22z`,
+                                  `https://www.google.com/maps/@${selectedCargo?.lat},${selectedCargo?.long},22z`,
                                   "_blank",
                                   "noreferrer"
                                 );
@@ -439,7 +439,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  ` https://www.google.com/maps?saddr=My+Location&daddr=${row?.originLong},${row?.originLat}`,
+                                  ` https://www.google.com/maps?saddr=My+Location&daddr=${selectedCargo?.lat},${selectedCargo?.long}`,
                                   "_blank",
                                   "noreferrer"
                                 );
@@ -452,7 +452,7 @@ const AdminDashboard = () => {
                             <IconButton
                               onClick={() => {
                                 window.open(
-                                  `https://maps.apple.com/place?q=${row?.lon},${row?.lat}&ll=${row?.originLong},${row?.originLat}&z=18,`,
+                                  `https://maps.apple.com/place?q=${selectedCargo?.lat},${selectedCargo?.long}&ll=${selectedCargo?.lat},${selectedCargo?.long}&z=18,`,
                                   "_blank",
                                   "noreferrer"
                                 );
